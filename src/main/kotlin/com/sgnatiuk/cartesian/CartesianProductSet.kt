@@ -1,10 +1,8 @@
 package com.sgnatiuk.cartesian
 
-import java.io.Serializable
-import kotlin.collections.ArrayList
-
 import com.sgnatiuk.encodable.EncodableCartesianProduct
-import com.sgnatiuk.encodable.decoders.SetMaskDecoder
+import com.sgnatiuk.encodable.decoders.MaskDecoderList
+import java.io.Serializable
 
 internal class CartesianProductSet<T> (
         data: Collection<Collection<T>>,
@@ -12,7 +10,7 @@ internal class CartesianProductSet<T> (
 ) : EncodableCartesianProduct<List<T>>(), Serializable {
 
     override val values = convertToFixedOrderMap(data, keepOrder)
-    override val decoder = SetMaskDecoder(values)
+    override val decoder = MaskDecoderList(values)
 
     private fun convertToFixedOrderMap(
             data: Collection<Collection<T>>,

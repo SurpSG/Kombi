@@ -1,6 +1,6 @@
 package com.sgnatiuk.encodable.decoders
 
-internal class SetMaskDecoder<T>(
+internal class MaskDecoderList<T>(
         private val data: List<List<T>>
 ) : MaskDecoder<List<T>> {
 
