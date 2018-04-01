@@ -1,7 +1,7 @@
 # Kombi
 
 ## Cartesian product
-###Usage for lists
+### Usage for lists
 ```java
     List<List<Integer>> data = Arrays.asList(
             Arrays.asList(1, 2, 3),
