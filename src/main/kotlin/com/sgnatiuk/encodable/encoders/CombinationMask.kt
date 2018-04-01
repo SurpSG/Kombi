@@ -1,21 +1,24 @@
-package com.sgnatiuk
+package com.sgnatiuk.encodable.encoders
 
 import java.util.*
 
-internal class DataEncoder(
+internal class CombinationMask(
         private val bases: IntArray
 ) : Iterator<IntArray> {
 
     private val encoded: IntArray = IntArray(bases.size)
-    private var firstCombi = true
+    private var hasNextElement : Boolean = true
 
 
     override fun hasNext(): Boolean {
-        return firstCombi || !encoded.increment()
+        if(hasNextElement) return true
+
+        hasNextElement = !encoded.increment()
+        return hasNextElement
     }
 
     override fun next() = encoded.apply {
-        firstCombi = false
+        hasNextElement = false
     }
 
     /**

@@ -1,16 +1,11 @@
-package com.sgnatiuk
+package com.sgnatiuk.encodable.decoders
 
-import com.sgnatiuk.extensions.getOrThrow
 import java.util.HashMap
 
-interface DataDecoder<K, V> {
-    fun decode(encoded: IntArray): Map<K, V>
-}
-
-internal class DefaultDecoder<K, V>(
+internal class MaskDecoderMap<K, V>(
         private val data: Map<K, List<V>>,
         private val dataKeys: List<K>
-) : DataDecoder<K, V> {
+) : MaskDecoder<Map<K, V>> {
 
     /**
      *

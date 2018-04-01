@@ -1,38 +1,27 @@
-package com.sgnatiuk
+package com.sgnatiuk.cartesian
 
-import com.sgnatiuk.extensions.multiplyAll
-import java.io.Serializable
-import java.math.BigInteger
+import com.sgnatiuk.Splittable
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
 import kotlin.collections.Map.Entry
+import com.sgnatiuk.encodable.decoders.MaskDecoderMap
+import com.sgnatiuk.encodable.EncodableCartesianProduct
 
-internal class DataCoder<K, V> (
+internal class CartesianProductMap<K, V> (
         data: Map<K, Collection<V>>,
         keepOrder: Boolean = false
-) : Iterable<IntArray>, Splittable<DataCoder<K, V>>, Serializable {
+) : EncodableCartesianProduct<Map<K, V>>(), Splittable<CartesianProductMap<K, V>> {
+
 
     private val internalData: Map<K, List<V>> = convertToFixedOrderMap(data, keepOrder)
-    private val bases = radixes(internalData)
     private val dataKeys = ArrayList<K>(internalData.keys)
 
-    val combiCount : BigInteger by lazy {
-        internalData.values.multiplyAll { size }
-    }
+    override val decoder = MaskDecoderMap(internalData, dataKeys)
+    override val values
+        get() = internalData.values
 
-    val decoder: DataDecoder<K, V>
-        get() = DefaultDecoder(internalData, dataKeys)
-
-    override fun iterator(): Iterator<IntArray> = DataEncoder(bases)
-
-    private fun radixes(data : Map<K, List<V>>): IntArray {
-        val dataValuesIterator = data.values.iterator()
-        return IntArray(data.size) {
-            dataValuesIterator.next().size
-        }
-    }
 
     private fun convertToFixedOrderMap(
             data: Map<K, Collection<V>>,
@@ -42,13 +31,13 @@ internal class DataCoder<K, V> (
             ArrayList(it.value)
         }
     } else {
-        sortListByEntriesValuesCount(data)
+        sortByValuesCount(data)
     }
 
-    private fun sortListByEntriesValuesCount(
+    private fun sortByValuesCount(
             data: Map<K, Collection<V>>,
             comparator: Comparator<Map.Entry<K, Collection<V>>> = ValuesCountAsc()
-            ) : Map<K, List<V>> {
+    ) : Map<K, List<V>> {
         val keepOrderMap: MutableMap<K, List<V>> = LinkedHashMap()
         data.entries.sortedWith(comparator).forEach {
             keepOrderMap[it.key] = ArrayList(it.value)
@@ -57,9 +46,9 @@ internal class DataCoder<K, V> (
     }
 
     //implement more fair split
-    override fun split(n: Int): List<DataCoder<K, V>> {
-        val coders = ArrayList<DataCoder<K, V>>()
-        val descSortedData = sortListByEntriesValuesCount(
+    override fun split(n: Int): List<CartesianProductMap<K, V>> {
+        val coders = ArrayList<CartesianProductMap<K, V>>()
+        val descSortedData = sortByValuesCount(
                 internalData,
                 ValuesCountAsc<K, V>().reversed()
         )
@@ -73,14 +62,12 @@ internal class DataCoder<K, V> (
             val to = from + fieldValuesPerChunk
             val newData = LinkedHashMap(descSortedData)
             newData[firstFieldEntry.key] = firstFieldValues.subList(from, to)
-            coders += DataCoder(newData)
+            coders += CartesianProductMap(newData)
             from = to
         }
 
         return coders
     }
-
-    override fun toString() = "DataCoder{combinationsCount=$combiCount}"
 
     class ValuesCountAsc<K, T> : Comparator<Map.Entry<K, Collection<T>>>{
 
