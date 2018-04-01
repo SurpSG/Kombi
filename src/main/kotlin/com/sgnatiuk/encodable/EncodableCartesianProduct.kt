@@ -5,15 +5,22 @@ import com.sgnatiuk.encodable.decoders.MaskDecoder
 import com.sgnatiuk.encodable.encoders.CombinationMask
 import com.sgnatiuk.extensions.multiplyAll
 import java.math.BigInteger
+import java.util.Collections.emptyIterator
 
 internal abstract class EncodableCartesianProduct<T> : CartesianProduct<T> {
 
-    abstract val decoder : MaskDecoder<T>
-    abstract val values: Collection<Collection<*>>
+    internal abstract val decoder : MaskDecoder<T>
+    internal abstract val values: Collection<Collection<*>>
 
-    val bases: IntArray by lazy { radixes(values) }
+    internal val bases: IntArray by lazy { radixes(values) }
 
-    override fun iterator(): Iterator<T> = DecodableIterator(this)
+    override fun iterator(): Iterator<T> {
+        return if(values.isNotEmpty()){
+            DecodableIterator(this)
+        } else{
+            emptyIterator()
+        }
+    }
 
     override val combinationsCount : BigInteger by lazy {
         values.multiplyAll { size }

@@ -6,9 +6,13 @@ internal class CombinationMask(
         private val bases: IntArray
 ) : Iterator<IntArray> {
 
+    init {
+        if(bases.isEmpty())
+            throw RuntimeException("Empty array is not allowed")
+    }
+
     private val encoded: IntArray = IntArray(bases.size)
     private var hasNextElement : Boolean = true
-
 
     override fun hasNext(): Boolean {
         if(hasNextElement) return true
