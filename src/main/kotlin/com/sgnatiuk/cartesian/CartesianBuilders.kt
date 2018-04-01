@@ -14,4 +14,3 @@ fun <T> CartesianProduct(
 ) : CartesianProduct<List<T>> {
     return CartesianProductSet(collection, keepOrder)
 }
-
