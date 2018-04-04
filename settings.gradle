@@ -1,2 +1,5 @@
-rootProject.name = 'kombi'
+rootProject.name = 'kombi-test-app'
+
+include 'kombi-lib'
+include 'kombi-app'
 

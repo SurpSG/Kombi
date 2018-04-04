@@ -1,0 +1,4 @@
+dependencies{
+    compile project(":kombi-lib")
+    testCompile "junit:junit:4.12"
+}

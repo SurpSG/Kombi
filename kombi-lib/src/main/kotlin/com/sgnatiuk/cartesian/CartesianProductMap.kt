@@ -1,13 +1,9 @@
 package com.sgnatiuk.cartesian
 
 import com.sgnatiuk.Splittable
-import kotlin.Comparator
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
-
-import kotlin.collections.Map.Entry
-import com.sgnatiuk.encodable.decoders.MaskDecoderMap
 import com.sgnatiuk.encodable.EncodableCartesianProduct
+import com.sgnatiuk.encodable.decoders.MaskDecoderMap
+import kotlin.collections.Map.Entry
 
 internal class CartesianProductMap<K, V> (
         data: Map<K, Collection<V>>,

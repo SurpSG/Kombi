@@ -3,7 +3,7 @@ package com.sgnatiuk.cartesian
 import com.sgnatiuk.encodable.EncodableCartesianProduct
 import com.sgnatiuk.encodable.decoders.MaskDecoderList
 import java.io.Serializable
-
+//TODO implement Splittable
 internal class CartesianProductSet<T> (
         data: Collection<Collection<T>>,
         keepOrder: Boolean = false

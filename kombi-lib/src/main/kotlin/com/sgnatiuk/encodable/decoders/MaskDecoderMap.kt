@@ -1,6 +1,6 @@
 package com.sgnatiuk.encodable.decoders
 
-import java.util.HashMap
+import java.util.*
 
 internal class MaskDecoderMap<K, V>(
         private val data: Map<K, List<V>>,

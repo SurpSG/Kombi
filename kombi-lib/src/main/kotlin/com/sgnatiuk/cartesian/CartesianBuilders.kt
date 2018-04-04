@@ -1,6 +1,7 @@
 @file:JvmName("CartesianBuilder")
 package com.sgnatiuk.cartesian
 
+@JvmOverloads
 fun <K, V> CartesianProduct(
         map: Map<K, Collection<V>>,
         keepOrder: Boolean = false
@@ -8,6 +9,7 @@ fun <K, V> CartesianProduct(
     return CartesianProductMap(map, keepOrder)
 }
 
+@JvmOverloads
 fun <T> CartesianProduct(
     collection : Collection<Collection<T>>,
     keepOrder: Boolean = false
