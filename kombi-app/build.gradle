@@ -1,4 +1,7 @@
+apply plugin: 'application'
+
 dependencies{
     compile project(":kombi-lib")
-    testCompile "junit:junit:4.12"
 }
+
+mainClassName = "com.sgnatiuk.cartesian.CartesianUsageKt"
