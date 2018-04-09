@@ -29,6 +29,45 @@ dependencies {
     compile 'com.sgnatiuk:kombi:1.0.1'
 }
 ```
+## Combinations
+### Usage for lists
+```java
+    List<String> inputData = Arrays.asList("A", "B", "C");
+    
+    Combination<List<String>> combinations = CombinationsBuilder.combinationsOf(inputData);
+    combinations.forEach(System.out::println);
+```
+The output:
+```
+    [A]
+    [B]
+    [A, B]
+    [C]
+    [A, C]
+    [B, C]
+    [A, B, C]
+```
+
+### Usage for maps
+```java
+    Map<Integer, String> data = new HashMap<>();
+    data.put(1, "1");
+    data.put(2, "2");
+    data.put(3, "3");
+    
+    Combination<Map<Integer, String>> cartesianProduct = CombinationsBuilder.combinationsOf(data);
+    cartesianProduct.forEach(System.out::println);
+```
+The output:
+```
+    {1=1}
+    {2=2}
+    {1=1, 2=2}
+    {3=3}
+    {1=1, 3=3}
+    {2=2, 3=3}
+    {1=1, 2=2, 3=3}
+```
 
 ## Cartesian product
 ### Usage for lists
