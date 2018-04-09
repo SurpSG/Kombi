@@ -1,5 +1,5 @@
 ext{
-    libVersion = '1.0.1'
+    libVersion = '2.0'
     libPackage = 'com.sgnatiuk'
     libName = 'kombi'
 }

@@ -12,7 +12,7 @@
     <dependency>
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
-      <version>1.0.1</version>
+      <version>2.0</version>
       <type>pom</type>
     </dependency>
 </dependencies>
@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:1.0.1'
+    compile 'com.sgnatiuk:kombi:2.0'
 }
 ```
 ## Combinations
