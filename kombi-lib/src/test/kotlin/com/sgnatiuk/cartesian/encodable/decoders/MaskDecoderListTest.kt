@@ -1,6 +1,6 @@
-package com.sgnatiuk.encodable.decoders
+package com.sgnatiuk.cartesian.encodable.decoders
 
-import com.sgnatiuk.encodable.encoders.CombinationMask
+import com.sgnatiuk.cartesian.encodable.encoders.CombinationMask
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 

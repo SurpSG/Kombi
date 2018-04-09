@@ -1,4 +1,4 @@
-package com.sgnatiuk.encodable.decoders
+package com.sgnatiuk.cartesian.encodable.decoders
 
 internal class MaskDecoderList<T>(
         private val data: List<List<T>>

@@ -1,8 +1,8 @@
 package com.sgnatiuk.cartesian
 
 import com.sgnatiuk.Splittable
-import com.sgnatiuk.encodable.EncodableCartesianProduct
-import com.sgnatiuk.encodable.decoders.MaskDecoderMap
+import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
+import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderMap
 import kotlin.collections.Map.Entry
 
 internal class CartesianProductMap<K, V> (

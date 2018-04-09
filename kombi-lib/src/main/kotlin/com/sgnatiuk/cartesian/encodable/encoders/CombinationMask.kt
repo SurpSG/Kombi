@@ -1,4 +1,4 @@
-package com.sgnatiuk.encodable.encoders
+package com.sgnatiuk.cartesian.encodable.encoders
 
 import java.util.*
 

@@ -1,8 +1,8 @@
-package com.sgnatiuk.encodable
+package com.sgnatiuk.cartesian.encodable
 
 import com.sgnatiuk.cartesian.CartesianProduct
-import com.sgnatiuk.encodable.decoders.MaskDecoder
-import com.sgnatiuk.encodable.encoders.CombinationMask
+import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoder
+import com.sgnatiuk.cartesian.encodable.encoders.CombinationMask
 import com.sgnatiuk.extensions.multiplyAll
 import java.math.BigInteger
 import java.util.Collections.emptyIterator

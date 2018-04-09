@@ -1,7 +1,7 @@
 package com.sgnatiuk.cartesian
 
-import com.sgnatiuk.encodable.EncodableCartesianProduct
-import com.sgnatiuk.encodable.decoders.MaskDecoderList
+import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
+import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderList
 import java.io.Serializable
 //TODO implement Splittable
 internal class CartesianProductSet<T> (
