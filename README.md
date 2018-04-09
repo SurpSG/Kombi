@@ -1,4 +1,34 @@
 # Kombi
+## Installation
+### Maven 
+```xml
+<repositories>
+    <repository>
+        <id>sgnatiuk</id>
+        <url>https://dl.bintray.com/sgnatiuk/kombi</url>
+    </repository>
+</repositories>
+<dependencies>
+    <dependency>
+      <groupId>com.sgnatiuk</groupId>
+      <artifactId>kombi</artifactId>
+      <version>1.0.1</version>
+      <type>pom</type>
+    </dependency>
+</dependencies>
+```
+### Gradle
+```groovy
+repositories {
+    maven {
+        url 'https://dl.bintray.com/sgnatiuk/kombi'
+    }
+}
+
+dependencies {
+    compile 'com.sgnatiuk:kombi:1.0.1'
+}
+```
 
 ## Cartesian product
 ### Usage for lists
