@@ -21,7 +21,7 @@ public class CartesianUsage {
 
     public static <T> void printCartesianProductFromList(List<List<T>> inputData) {
         System.out.println("Cartesian product of " + inputData);
-        CartesianBuilder.CartesianProduct(inputData)
+        CartesianBuilder.cartesianProductOf(inputData)
                 .forEach(System.out::println);
     }
 
@@ -31,7 +31,7 @@ public class CartesianUsage {
                         toMap(i -> i, inputData::get)
                 );
         System.out.println("Cartesian product of " + inputDataMap);
-        CartesianBuilder.CartesianProduct(inputDataMap)
+        CartesianBuilder.cartesianProductOf(inputDataMap)
                 .forEach(System.out::println);
     }
 }

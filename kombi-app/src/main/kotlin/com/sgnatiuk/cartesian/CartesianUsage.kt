@@ -12,11 +12,11 @@ fun main(args: Array<String>) {
 
 fun <T> printCartesianProductFromList(inputData: List<List<T>>) {
     println("CartesianProduct of $inputData")
-    CartesianProduct(inputData).forEach(::println)
+    cartesianProductOf(inputData).forEach(::println)
 }
 
 fun <T> printCartesianProductFromMap(inputData: List<List<T>>) {
     val inputDataMap: Map<Int, List<T>> = inputData.mapIndexed(::Pair).toMap()
     println("CartesianProduct of $inputDataMap")
-    CartesianProduct(inputDataMap).forEach(::println)
+    cartesianProductOf(inputDataMap).forEach(::println)
 }
