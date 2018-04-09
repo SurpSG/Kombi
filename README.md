@@ -78,7 +78,7 @@ The output:
             Arrays.asList(6)
     );
     
-    CartesianProduct<List<Integer>> cartesianProduct = CartesianBuilder.CartesianProduct(data, false);
+    CartesianProduct<List<Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, false);
     cartesianProduct.forEach(System.out::println);
 ```
 The output:
@@ -98,7 +98,7 @@ The output:
     data.put(2, Arrays.asList(4, 5));
     data.put(3, Arrays.asList(6));
     
-    CartesianProduct<Map<Integer, Integer>> cartesianProduct = CartesianBuilder.CartesianProduct(data, true);
+    CartesianProduct<Map<Integer, Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, true);
     cartesianProduct.forEach(System.out::println);
 ```
 The output:
