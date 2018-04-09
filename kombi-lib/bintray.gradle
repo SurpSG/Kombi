@@ -1,0 +1,72 @@
+import java.nio.file.Paths
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+def bintrayProperties = new Properties()
+File propFile = Paths.get(
+        System.properties['user.home'].toString(),
+        ".gradle",
+        "bintray.properties").toFile()
+
+bintrayProperties.load(propFile.newDataInputStream())
+bintray {
+    user = bintrayProperties["bintray.user"]
+    key = bintrayProperties["bintray.apikey"]
+    configurations = ['archives']
+    pkg {
+        repo = 'kombi'
+        name = 'kombi'
+        userOrg = 'sgnatiuk'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/SurpSG/Kombi.git'
+        version {
+            name = libVersion
+            released  = new Date()
+            vcsTag = libVersion
+        }
+    }
+    publications = ['bintrayPublish']
+}
+
+jar.baseName = libName
+task sourcesJar(type: Jar, dependsOn: project.classes) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+    baseName = libName
+}
+
+task javadocJar(type: Jar, dependsOn: project.javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+    baseName = libName
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+publishing {
+    publications {
+        bintrayPublish(MavenPublication) {
+            artifactId libName
+            groupId libPackage
+            version libVersion
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                asNode().dependencies.each() {
+                    it.parent().remove(it)
+                }
+            }
+        }
+    }
+}
+
+
+
