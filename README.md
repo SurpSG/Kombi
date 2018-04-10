@@ -4,8 +4,8 @@
 ```xml
 <repositories>
     <repository>
-        <id>sgnatiuk</id>
-        <url>https://dl.bintray.com/sgnatiuk/kombi</url>
+        <id>jcenter</id>
+        <url>https://jcenter.bintray.com/</url>
     </repository>
 </repositories>
 <dependencies>
@@ -13,16 +13,13 @@
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
       <version>2.0</version>
-      <type>pom</type>
     </dependency>
 </dependencies>
 ```
 ### Gradle
 ```groovy
-repositories {
-    maven {
-        url 'https://dl.bintray.com/sgnatiuk/kombi'
-    }
+repositories {  
+   jcenter()  
 }
 
 dependencies {
