@@ -1,5 +1,7 @@
 package com.sgnatiuk.cartesian
 
+import com.sgnatiuk.extensions.BigInt
+import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -41,7 +43,16 @@ internal class CartesianProductSetTest {
         }
     }
 
-    fun <T> assertContainsAll(
+    @Test
+    fun `verify cartesian product calculates combinations number properly`(){
+        var result = 1.BigInt
+        val cartesianProductSet = CartesianProductSet(data)
+        data.forEach { result *= it.size.BigInt }
+        Assert.assertEquals(result, cartesianProductSet.combinationsCount)
+        Assert.assertEquals(expectedCombies.size.BigInt, cartesianProductSet.combinationsCount)
+    }
+
+    private fun <T> assertContainsAll(
             expected: Collection<Collection<T>>,
             actual: Collection<Collection<T>>
     ) {

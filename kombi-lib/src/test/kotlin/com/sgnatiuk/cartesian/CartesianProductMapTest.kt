@@ -1,5 +1,8 @@
 package com.sgnatiuk.cartesian
 
+import com.sgnatiuk.extensions.BigInt
+import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -64,5 +67,14 @@ internal class CartesianProductMapTest {
         expectedCombies.forEach {
             assertTrue(result.contains(it))
         }
+    }
+
+    @Test
+    fun `verify cartesian product calculates combinations number properly`(){
+        var result = 1.BigInt
+        val cartesianProductMap = CartesianProductMap(data)
+        data.values.forEach { result *= it.size.BigInt }
+        assertEquals(result, cartesianProductMap.combinationsCount)
+        Assert.assertEquals(expectedCombies.size.BigInt, cartesianProductMap.combinationsCount)
     }
 }

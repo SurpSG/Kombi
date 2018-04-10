@@ -1,7 +1,5 @@
 package com.sgnatiuk.cartesian.encodable.encoders
 
-import java.util.*
-
 internal class CombinationMask(
         private val bases: IntArray
 ) : Iterator<IntArray> {
@@ -39,9 +37,5 @@ internal class CombinationMask(
             index--
         } while (extra != 0 && index >= 0)
         return index < 0 && extra > 0
-    }
-
-    private fun copy(arr: IntArray): IntArray {
-        return Arrays.copyOf(arr, arr.size)
     }
 }
