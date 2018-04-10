@@ -22,4 +22,5 @@ buildscript {
 }
 
 apply from: 'bintray.gradle'
+apply plugin: 'jacoco'
 
