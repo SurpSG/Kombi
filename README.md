@@ -107,3 +107,34 @@ The output:
     {1=3, 2=4, 3=6}
     {1=3, 2=5, 3=6}
 ```
+
+## Benchmarking
+Measured throughput of generation of combination/cartesian product item (generated items per second)
+
+Benchmark results:
+```
+Ubuntu 16.04 TLS
+Intel® Core™ i5-2500 CPU @ 3.30GHz × 4
+JMH version: 1.19
+VM version: JDK 1.8.0_144, VM 25.144-b01
+VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+VM options: -Xms4g -Xmx4g
+Warmup: 10 iterations, 1 s each
+Measurement: 10 iterations, 1 s each
+Timeout: 10 min per iteration
+Threads: 1 thread, will synchronize iterations
+Benchmark mode: Throughput, ops/time
+
+Benchmark                                                          Mode  Cnt         Score        Error  Units
+c.s.b.cartesian.CartesianListBenchmark.nextCartesianMap           thrpt   10  11145467.663 ± 154455.324  ops/s
+c.s.b.cartesian.CartesianListKeepOrderBenchmark.nextCartesianMap  thrpt   10  11235119.916 ±  68636.744  ops/s
+c.s.b.cartesian.CartesianMapBenchmark.nextCartesianList           thrpt   10   3543765.382 ±  19372.030  ops/s
+c.s.b.cartesian.CartesianMapKeepOrderBenchmark.nextCartesianList  thrpt   10   3532589.782 ±  20227.118  ops/s
+c.s.b.combination.CombinationListBenchmark.nextCombinationList    thrpt   10   5553247.849 ± 122736.874  ops/s
+c.s.b.combination.CombinationMapBenchmark.nextCombinationMap      thrpt   10   2184342.995 ± 188794.436  ops/s
+```
+
+Feel free to run benchmarks by yourself:
+```
+./gradlew clean kombi-jmh:jmh
+```
