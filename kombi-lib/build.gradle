@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
 ext{
     libVersion = '2.0'
     libPackage = 'com.sgnatiuk'
@@ -12,15 +27,9 @@ dependencies {
     testCompile "junit:junit:4.12"
 }
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
     }
 }
-
-apply from: 'bintray.gradle'
-apply plugin: 'jacoco'
-
