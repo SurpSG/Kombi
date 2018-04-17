@@ -10,8 +10,9 @@ File propFile = Paths.get(
         System.properties['user.home'].toString(),
         ".gradle",
         "bintray.properties").toFile()
-
-bintrayProperties.load(propFile.newDataInputStream())
+if(propFile.exists()){
+    bintrayProperties.load(propFile.newDataInputStream())
+}
 bintray {
     user = bintrayProperties["bintray.user"]
     key = bintrayProperties["bintray.apikey"]
