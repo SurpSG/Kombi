@@ -34,4 +34,6 @@ jacocoTestReport {
     }
 }
 
-sourceDirs = files(sourceSets.main.kotlin.srcDirs).files.absolutePath
+coveralls {
+    sourceDirs = files(sourceSets.main.kotlin.srcDirs).files.absolutePath
+}
