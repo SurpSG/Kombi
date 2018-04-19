@@ -1,10 +1,11 @@
 package com.sgnatiuk.combination
 
-fun main(args: Array<String>) {
-    val inputData = listOf(1, 2, 3)
+import com.sgnatiuk.listOfStrings
+import com.sgnatiuk.mapIntToString
 
-    printCombinationsOfList(inputData)
-    printCombinationsOfMap(inputData)
+fun main(args: Array<String>) {
+    printCombinationsOfList(listOfStrings)
+    printCombinationsOfMap(mapIntToString)
 }
 
 fun <T> printCombinationsOfList(inputData: List<T>) {
@@ -12,8 +13,7 @@ fun <T> printCombinationsOfList(inputData: List<T>) {
     combinationsOf(inputData).forEach(::println)
 }
 
-fun <T> printCombinationsOfMap(inputData: List<T>) {
-    val inputDataMap: Map<Int, T> = inputData.mapIndexed(::Pair).toMap()
-    println("Combinations of $inputDataMap")
-    combinationsOf(inputDataMap).forEach(::println)
+fun <K,V> printCombinationsOfMap(inputData: Map<K, V>) {
+    println("Combinations of $inputData")
+    combinationsOf(inputData).forEach(::println)
 }
