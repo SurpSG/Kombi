@@ -1,6 +1,5 @@
 package com.sgnatiuk.cartesian
 
-import com.sgnatiuk.Splittable
 import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
 import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderMap
 import kotlin.collections.Map.Entry
@@ -8,7 +7,7 @@ import kotlin.collections.Map.Entry
 internal class CartesianProductMap<K, V> (
         data: Map<K, Collection<V>>,
         keepOrder: Boolean = false
-) : EncodableCartesianProduct<Map<K, V>>(), Splittable<CartesianProductMap<K, V>> {
+) : EncodableCartesianProduct<Map<K, V>>() {
 
 
     private val internalData: Map<K, List<V>> = convertToFixedOrderMap(data, keepOrder)
@@ -43,7 +42,7 @@ internal class CartesianProductMap<K, V> (
 
     //implement more fair split
     override fun split(n: Int): List<CartesianProductMap<K, V>> {
-        val coders = ArrayList<CartesianProductMap<K, V>>()
+        val splitList = ArrayList<CartesianProductMap<K, V>>()
         val descSortedData = sortByValuesCount(
                 internalData,
                 ValuesCountAsc<K, V>().reversed()
@@ -58,14 +57,14 @@ internal class CartesianProductMap<K, V> (
             val to = from + fieldValuesPerChunk
             val newData = LinkedHashMap(descSortedData)
             newData[firstFieldEntry.key] = firstFieldValues.subList(from, to)
-            coders += CartesianProductMap(newData)
+            splitList += CartesianProductMap(newData)
             from = to
         }
 
-        return coders
+        return splitList
     }
 
-    class ValuesCountAsc<K, T> : Comparator<Map.Entry<K, Collection<T>>>{
+    internal class ValuesCountAsc<K, T> : Comparator<Map.Entry<K, Collection<T>>>{
 
         override fun compare(
                 o1: Entry<K, Collection<T>>,

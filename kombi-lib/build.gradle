@@ -14,7 +14,7 @@ plugins {
 }
 
 ext{
-    libVersion = '2.0'
+    libVersion = '2.1'
     libPackage = 'com.sgnatiuk'
     libName = 'kombi'
 }

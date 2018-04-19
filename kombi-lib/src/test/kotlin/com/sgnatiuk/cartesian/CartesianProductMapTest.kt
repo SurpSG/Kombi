@@ -42,4 +42,41 @@ internal class CartesianProductMapTest {
         assertEquals(result, cartesianProductMap.combinationsCount)
         Assert.assertEquals(expectedCartesianMap.size.BigInt, cartesianProductMap.combinationsCount)
     }
+
+    @Test
+    fun `test split by two produces two items list of cartesian products`(){
+        val cartesianProductMap = CartesianProductMap(dataMap)
+        val splitFactor = 2
+        val splitCartesian = cartesianProductMap.split(splitFactor)
+        assertEquals(splitFactor, splitCartesian.size)
+    }
+
+    @Test
+    fun `verify split with factor 1 produces the same cartesian product`(){
+        val cartesianProductMap = CartesianProductMap(dataMap)
+        val notSplitCartesianSetResult = cartesianProductMap.toSet()
+
+        val splitFactor = 1
+        val splitCartesian = cartesianProductMap.split(splitFactor)
+        assertEquals(splitFactor, splitCartesian.size)
+
+        val collectedCartesianProduct = splitCartesian.flatMap { it }.toSet()
+
+        assertEquals(notSplitCartesianSetResult, collectedCartesianProduct)
+    }
+
+    @Test
+    fun `verify split and simple cartesian produces the same combinations`() {
+        val cartesianProductMap = CartesianProductMap(dataMap)
+        val notSplitCartesianMapResult = cartesianProductMap.map{ it }
+
+        val splitFactor = 2
+        val splitCartesian = cartesianProductMap.split(splitFactor)
+        assertEquals(splitFactor, splitCartesian.size)
+
+        val collectedCartesianProduct = splitCartesian.flatten().toSet()
+
+        assertTrue(collectedCartesianProduct.containsAll(notSplitCartesianMapResult))
+    }
+
 }
