@@ -1,7 +1,7 @@
 # Kombi
 [ ![Download](https://api.bintray.com/packages/sgnatiuk/kombi/kombi/images/download.svg) ](https://bintray.com/sgnatiuk/kombi/kombi/_latestVersion)
 [![Build Status](https://travis-ci.org/SurpSG/Kombi.svg?branch=master)](https://travis-ci.org/SurpSG/Kombi)
-[![Coverage Status](https://coveralls.io/repos/github/SurpSG/Kombi/badge.svg?branch=master)](https://coveralls.io/github/SurpSG/Kombi?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/SurpSG/Kombi/badge.svg)](https://coveralls.io/github/SurpSG/Kombi)
 ## Installation
 ### Maven 
 ```xml
