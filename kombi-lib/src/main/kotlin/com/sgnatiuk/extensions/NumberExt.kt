@@ -6,6 +6,6 @@ import kotlin.math.pow
 val Int.BigInt
     get() : BigInteger = BigInteger.valueOf(this.toLong())
 
-fun Int.pow(n: Int) = this.toDouble().pow(n).toInt()
+fun Int.pow(n: Int) : Long = this.toDouble().pow(n).toLong()
 
-fun Int.bitCount(): Int = Integer.bitCount(this)
+fun Long.bitCount(): Int = java.lang.Long.bitCount(this)

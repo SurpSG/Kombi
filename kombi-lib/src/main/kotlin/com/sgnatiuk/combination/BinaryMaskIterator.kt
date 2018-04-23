@@ -3,14 +3,16 @@ package com.sgnatiuk.combination
 import com.sgnatiuk.extensions.bitCount
 
 internal class BinaryMaskIterator<T>(
-        private val combinationNumber: Int,
+        combinationsRange: LongRange,
         private val collectionBuilder: CollectionBuilder<T>
 ) : Iterator<T> {
 
-    private var combinationMask : Int = 1
+    private val lastValue: Long = combinationsRange.last
+
+    private var combinationMask : Long = combinationsRange.first
 
     override fun hasNext() : Boolean {
-        return combinationMask <= combinationNumber
+        return combinationMask <= lastValue
     }
 
     override fun next(): T {
@@ -18,7 +20,7 @@ internal class BinaryMaskIterator<T>(
         var tempMask = combinationMask
         var index = 0
         do {
-            if(tempMask and 1 == 1) {
+            if(tempMask and 1 == 1L) {
                 collectionBuilder.addItemByIndex(collection, index)
             }
             index++

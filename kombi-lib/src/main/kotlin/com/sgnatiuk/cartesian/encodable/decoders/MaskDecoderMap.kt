@@ -20,7 +20,7 @@ internal class MaskDecoderMap<K, V>(
         for (i in encoded.indices) {
             val fieldKey = keyByIndex(i)
             val valueIndex = encoded[i]
-            decoded[fieldKey] = data.valueByIndex(fieldKey, valueIndex)
+            decoded[fieldKey] = data[fieldKey, valueIndex]
         }
         return decoded
     }
@@ -33,6 +33,6 @@ internal class MaskDecoderMap<K, V>(
         return dataKeys[index]
     }
 
-    private fun Map<K, List<V>>.valueByIndex(key: K, index: Int) = this[key]!![index]
+    private operator fun Map<K, List<V>>.get(key: K, index: Int) = this[key]!![index]
 }
 
