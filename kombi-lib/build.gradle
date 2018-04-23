@@ -8,7 +8,6 @@ buildscript {
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
@@ -37,3 +36,5 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(sourceSets.main.kotlin.srcDirs).files.absolutePath
 }
+
+apply from: 'bintray.gradle'
