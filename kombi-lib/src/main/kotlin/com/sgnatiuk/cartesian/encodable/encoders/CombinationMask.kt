@@ -38,4 +38,10 @@ internal class CombinationMask(
         } while (extra != 0 && index >= 0)
         return index < 0 && extra > 0
     }
+
+    private fun hello() {
+        if(Math.random() > 0.5) {
+            println("hello jacoco")
+        }
+    }
 }
