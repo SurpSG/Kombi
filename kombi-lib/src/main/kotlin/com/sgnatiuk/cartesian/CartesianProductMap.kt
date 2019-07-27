@@ -31,7 +31,7 @@ internal class CartesianProductMap<K, V> (
 
     private fun sortByValuesCount(
             data: Map<K, Collection<V>>,
-            comparator: Comparator<Map.Entry<K, Collection<V>>> = ValuesCountAsc()
+            comparator: Comparator<Entry<K, Collection<V>>> = ValuesCountAsc()
     ) : Map<K, List<V>> {
         val keepOrderMap: MutableMap<K, List<V>> = LinkedHashMap()
         data.entries.sortedWith(comparator).forEach {
@@ -64,7 +64,7 @@ internal class CartesianProductMap<K, V> (
         return splitList
     }
 
-    internal class ValuesCountAsc<K, T> : Comparator<Map.Entry<K, Collection<T>>>{
+    internal class ValuesCountAsc<K, T> : Comparator<Entry<K, Collection<T>>>{
 
         override fun compare(
                 o1: Entry<K, Collection<T>>,
