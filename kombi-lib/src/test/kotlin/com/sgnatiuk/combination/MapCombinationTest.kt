@@ -14,7 +14,7 @@ internal class MapCombinationTest {
             3 to "3"
     )
     private val combinationsCount = 2.pow(map.size) - 1
-    private val mapCombination = MapCombination(map)
+    private val mapCombination = combinationsOf(map) as MapCombination
 
     @Test
     fun `verify combinations count calculated properly`() {

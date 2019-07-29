@@ -3,6 +3,7 @@ package com.sgnatiuk.cartesian
 import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
 import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderList
 import java.io.Serializable
+import kotlin.math.min
 
 internal class CartesianProductSet<T> (
         data: Collection<Collection<T>>,
@@ -37,7 +38,7 @@ internal class CartesianProductSet<T> (
         val descSortedData = sortByValuesCount(values, ValuesCountAsc<T>().reversed())
 
         val firstFieldValues = descSortedData.first()
-        val parts = Math.min(n, firstFieldValues.size)
+        val parts = min(n, firstFieldValues.size)
 
         var from = 0
         repeat(parts){ i ->

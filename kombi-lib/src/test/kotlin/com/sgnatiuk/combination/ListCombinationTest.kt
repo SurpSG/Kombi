@@ -10,7 +10,7 @@ import java.util.stream.Collectors
 internal class ListCombinationTest {
     private val listOf = listOf("1", "2", "3")
     private val combinationsCount = 2.pow(listOf.size) - 1
-    private val listCombination = ListCombination(listOf)
+    private val listCombination = combinationsOf(listOf) as ListCombination
 
     @Test
     fun `verify combinations count calculated properly`() {

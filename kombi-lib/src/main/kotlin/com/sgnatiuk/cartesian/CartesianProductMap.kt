@@ -10,14 +10,12 @@ internal class CartesianProductMap<K, V> (
         keepOrder: Boolean = false
 ) : EncodableCartesianProduct<Map<K, V>>() {
 
-
     private val internalData: Map<K, List<V>> = convertToFixedOrderMap(data, keepOrder)
     private val dataKeys = ArrayList<K>(internalData.keys)
 
     override val decoder = MaskDecoderMap(internalData, dataKeys)
     override val values
         get() = internalData.values
-
 
     private fun convertToFixedOrderMap(
             data: Map<K, Collection<V>>,

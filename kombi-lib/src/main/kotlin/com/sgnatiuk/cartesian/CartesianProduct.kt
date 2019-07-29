@@ -2,7 +2,10 @@ package com.sgnatiuk.cartesian
 
 import com.sgnatiuk.Splittable
 import java.math.BigInteger
-//TODO implement spliterator for streams
+import java.util.stream.Stream
+
 interface CartesianProduct<T> : Iterable<T>, Splittable<CartesianProduct<T>> {
     val combinationsCount: BigInteger
+
+    fun stream(): Stream<T>
 }
