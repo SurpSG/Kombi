@@ -9,8 +9,6 @@ import java.util.function.Consumer
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-
-
 interface Combination<T> : Iterable<T>, Splittable<Combination<T>> {
     val combinationsNumber: Long
 
@@ -67,6 +65,4 @@ internal class CombinationSpliterator<T>(
     }
 }
 
-internal fun Int.calculateCombinationsNumber() : Long {
-    return 2.pow(this) - 1
-}
+internal fun Int.calculateCombinationsNumber() : Long = 2.pow(this) - 1

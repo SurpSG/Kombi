@@ -5,6 +5,7 @@ import com.sgnatiuk.extensions.rangeLength
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.stream.Collectors
 
 internal class MapCombinationTest {
     private val map = mapOf(
@@ -25,7 +26,7 @@ internal class MapCombinationTest {
         val combinations = HashSet<Map<Int, String>>()
         mapCombination.forEach {
             assertTrue(it.isNotEmpty())
-            it.forEach { key, value ->
+            it.forEach { (key, value) ->
                 assertEquals(map[key], value)
             }
             combinations += it
@@ -77,5 +78,21 @@ internal class MapCombinationTest {
         subCombination.forEach {
             allCombinations.contains(it)
         }
+    }
+
+    @Test
+    fun `stream should return stream of all items`() {
+        val expected = mapCombination.toSet()
+        val actual = mapCombination.stream().collect(Collectors.toSet())
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `stream should return stream able to be process items parallel`() {
+        val expected = mapCombination.toSet()
+        val actual = mapCombination.stream()
+                .parallel()
+                .collect(Collectors.toSet())
+        assertEquals(expected, actual)
     }
 }

@@ -3,6 +3,7 @@ package com.sgnatiuk.cartesian
 import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
 import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderMap
 import kotlin.collections.Map.Entry
+import kotlin.math.min
 
 internal class CartesianProductMap<K, V> (
         data: Map<K, Collection<V>>,
@@ -49,7 +50,7 @@ internal class CartesianProductMap<K, V> (
         )
         val firstFieldEntry = descSortedData.entries.first()
         val firstFieldValues = firstFieldEntry.value
-        val parts = Math.min(n, firstFieldValues.size)
+        val parts = min(n, firstFieldValues.size)
 
         var from = 0
         repeat(parts){ i ->
