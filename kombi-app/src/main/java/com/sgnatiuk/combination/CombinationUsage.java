@@ -13,6 +13,12 @@ public class CombinationUsage {
         List<String> inputData = Arrays.asList("A", "B", "C");
         printCartesianProductFromList(inputData);
         printCartesianProductFromMap(inputData);
+
+        System.out.println("\nCombinations of list " + inputData + " as stream");
+        CombinationsBuilder.combinationsOf(inputData)
+                .stream()
+                .parallel()
+                .forEach(System.out::println);
     }
 
     public static <T> void printCartesianProductFromList(List<T> inputData) {
