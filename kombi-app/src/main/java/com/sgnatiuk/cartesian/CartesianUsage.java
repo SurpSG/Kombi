@@ -9,13 +9,20 @@ import java.util.stream.Collectors;
 public class CartesianUsage {
 
     public static void main(String[] args) {
+
         printCartesianProductFromList(TestData.getListOfLists());
         printCartesianProductFromMap(TestData.getMapOfLists());
 
-        System.out.println();
+        System.out.println("\nGet cartesian products in parallel");
 
         parallelPrintCartesianProduct(TestData.getListOfLists());
         parallelPrintCartesianProduct(TestData.getMapOfLists());
+
+        System.out.println("\nGet cartesian product as stream");
+        CartesianBuilder.cartesianProductOf(TestData.getListOfLists())
+                .stream()
+                .parallel()
+                .forEach(System.out::println);
     }
 
     public static <T> void printCartesianProductFromList(List<List<T>> inputData) {

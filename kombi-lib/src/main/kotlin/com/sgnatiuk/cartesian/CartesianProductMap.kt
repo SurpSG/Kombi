@@ -3,12 +3,12 @@ package com.sgnatiuk.cartesian
 import com.sgnatiuk.cartesian.encodable.EncodableCartesianProduct
 import com.sgnatiuk.cartesian.encodable.decoders.MaskDecoderMap
 import kotlin.collections.Map.Entry
+import kotlin.math.min
 
 internal class CartesianProductMap<K, V> (
         data: Map<K, Collection<V>>,
         keepOrder: Boolean = false
 ) : EncodableCartesianProduct<Map<K, V>>() {
-
 
     private val internalData: Map<K, List<V>> = convertToFixedOrderMap(data, keepOrder)
     private val dataKeys = ArrayList<K>(internalData.keys)
@@ -16,7 +16,6 @@ internal class CartesianProductMap<K, V> (
     override val decoder = MaskDecoderMap(internalData, dataKeys)
     override val values
         get() = internalData.values
-
 
     private fun convertToFixedOrderMap(
             data: Map<K, Collection<V>>,
@@ -31,7 +30,7 @@ internal class CartesianProductMap<K, V> (
 
     private fun sortByValuesCount(
             data: Map<K, Collection<V>>,
-            comparator: Comparator<Map.Entry<K, Collection<V>>> = ValuesCountAsc()
+            comparator: Comparator<Entry<K, Collection<V>>> = ValuesCountAsc()
     ) : Map<K, List<V>> {
         val keepOrderMap: MutableMap<K, List<V>> = LinkedHashMap()
         data.entries.sortedWith(comparator).forEach {
@@ -49,7 +48,7 @@ internal class CartesianProductMap<K, V> (
         )
         val firstFieldEntry = descSortedData.entries.first()
         val firstFieldValues = firstFieldEntry.value
-        val parts = Math.min(n, firstFieldValues.size)
+        val parts = min(n, firstFieldValues.size)
 
         var from = 0
         repeat(parts){ i ->
@@ -64,7 +63,7 @@ internal class CartesianProductMap<K, V> (
         return splitList
     }
 
-    internal class ValuesCountAsc<K, T> : Comparator<Map.Entry<K, Collection<T>>>{
+    internal class ValuesCountAsc<K, T> : Comparator<Entry<K, Collection<T>>>{
 
         override fun compare(
                 o1: Entry<K, Collection<T>>,

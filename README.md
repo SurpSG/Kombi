@@ -2,6 +2,10 @@
 [ ![Download](https://api.bintray.com/packages/sgnatiuk/kombi/kombi/images/download.svg) ](https://bintray.com/sgnatiuk/kombi/kombi/_latestVersion)
 [![Build Status](https://travis-ci.org/SurpSG/Kombi.svg?branch=master)](https://travis-ci.org/SurpSG/Kombi)
 [![Coverage Status](https://coveralls.io/repos/github/SurpSG/Kombi/badge.svg)](https://coveralls.io/github/SurpSG/Kombi)
+
+**Kombi** is library to generate
+* all possible [combinations](https://en.wikipedia.org/wiki/Combination) from given set of items
+* [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from given sets of items
 ## Installation
 ### Maven 
 ```xml
@@ -15,7 +19,7 @@
     <dependency>
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
-      <version>2.1</version>
+      <version>2.2</version>
     </dependency>
 </dependencies>
 ```
@@ -26,16 +30,18 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:2.1'
+    compile 'com.sgnatiuk:kombi:2.2'
 }
 ```
 ## Combinations
+`Combination<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
+To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function. 
 ### Usage for lists
 ```java
     List<String> inputData = Arrays.asList("A", "B", "C");
     
     Combination<List<String>> combinations = CombinationsBuilder.combinationsOf(inputData);
-    combinations.forEach(System.out::println);
+    combinations.stream().forEach(System.out::println);
 ```
 The output:
 ```
@@ -70,6 +76,8 @@ The output:
 ```
 
 ## Cartesian product
+`CartesianProduct<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
+To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function.
 ### Usage for lists
 ```java
     List<List<Integer>> data = Arrays.asList(

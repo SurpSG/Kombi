@@ -5,11 +5,12 @@ import com.sgnatiuk.extensions.rangeLength
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.stream.Collectors
 
 internal class ListCombinationTest {
     private val listOf = listOf("1", "2", "3")
     private val combinationsCount = 2.pow(listOf.size) - 1
-    private val listCombination = ListCombination(listOf)
+    private val listCombination = combinationsOf(listOf) as ListCombination
 
     @Test
     fun `verify combinations count calculated properly`() {
@@ -71,5 +72,24 @@ internal class ListCombinationTest {
         subCombination.map { it.toSet() }.forEach {
             allCombinations.contains(it)
         }
+    }
+
+    @Test
+    fun `stream should return stream of all items`() {
+        val expected = listCombination.map { it.toSet() }.toSet()
+        val actual = listCombination.stream()
+                .map { it.toSet() }
+                .collect(Collectors.toSet())
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `stream should return stream able to be process items parallel`() {
+        val expected = listCombination.map { it.toSet() }.toSet()
+        val actual = listCombination.stream()
+                .parallel()
+                .map { it.toSet() }
+                .collect(Collectors.toSet())
+        assertEquals(expected, actual)
     }
 }
