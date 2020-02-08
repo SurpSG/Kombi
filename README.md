@@ -6,6 +6,11 @@
 **Kombi** is library to generate
 * all possible [combinations](https://en.wikipedia.org/wiki/Combination) from given set of items
 * [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from given sets of items
+
+All items computations are lazy that provides a small memory footprint. 
+
+To get even better throughput(see [Benchmarking](#benchmarking) section), computations can be easily parallelized by splitting to equal independent subsets(see [Parallel computation](#parallel-computation) section).    
+
 ## Installation
 ### Maven 
 ```xml
@@ -37,11 +42,20 @@ dependencies {
 `Combination<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
 To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function. 
 ### Usage for lists
+#### Java
 ```java
     List<String> inputData = Arrays.asList("A", "B", "C");
     
     Combination<List<String>> combinations = CombinationsBuilder.combinationsOf(inputData);
     combinations.stream().forEach(System.out::println);
+```
+#### Kotlin
+```kotlin
+    import com.sgnatiuk.combination.combinationsOf
+    
+    val data = listOf("A", "B", "C")
+    combinationsOf(data).forEach(::println)
+    
 ```
 The output:
 ```
@@ -55,6 +69,7 @@ The output:
 ```
 
 ### Usage for maps
+#### Java
 ```java
     Map<Integer, String> data = new HashMap<>();
     data.put(1, "1");
@@ -63,6 +78,17 @@ The output:
     
     Combination<Map<Integer, String>> cartesianProduct = CombinationsBuilder.combinationsOf(data);
     cartesianProduct.forEach(System.out::println);
+```
+#### Kotlin
+```kotlin
+    import com.sgnatiuk.combination.combinationsOf
+    
+    val data = mapOf(
+            1 to "1",
+            2 to "2",
+            3 to "3"
+    )
+    combinationsOf(data).forEach(::println)
 ```
 The output:
 ```
@@ -79,6 +105,7 @@ The output:
 `CartesianProduct<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
 To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function.
 ### Usage for lists
+#### Java
 ```java
     List<List<Integer>> data = Arrays.asList(
             Arrays.asList(1, 2, 3),
@@ -88,6 +115,17 @@ To get items lazily you can use the iterator by calling `iterator()` function or
     
     CartesianProduct<List<Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, false);
     cartesianProduct.forEach(System.out::println);
+```
+#### Kotlin
+```kotlin
+    import com.sgnatiuk.combination.combinationsOf
+
+    val data = listOf(
+            listOf(1, 2, 3),
+            listOf(4, 5),
+            listOf(6)
+    )
+    cartesianProductOf(data).forEach(::println)
 ```
 The output:
 ```
@@ -100,6 +138,7 @@ The output:
 ```
 
 ### Usage for maps
+#### Java
 ```java
     Map<Integer, List<Integer>> data = new HashMap<>();
     data.put(1, Arrays.asList(1, 2, 3));
@@ -109,6 +148,17 @@ The output:
     CartesianProduct<Map<Integer, Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, true);
     cartesianProduct.forEach(System.out::println);
 ```
+#### Kotlin
+```kotlin
+    import com.sgnatiuk.cartesian.cartesianProductOf
+
+    val data = mapOf(
+            1 to listOf(1, 2, 3),
+            2 to listOf(4, 5),
+            3 to listOf(6)
+    )
+    cartesianProductOf(data).forEach(::println)
+```
 The output:
 ```
     {1=1, 2=4, 3=6}
@@ -117,6 +167,34 @@ The output:
     {1=2, 2=5, 3=6}
     {1=3, 2=4, 3=6}
     {1=3, 2=5, 3=6}
+```
+
+## Parallel computation
+
+```java
+        // generate data for combinations
+        List<Integer> data = IntStream.range(0, 10).boxed().collect(Collectors.toList());
+        Combination<List<Integer>> combinations = CombinationsBuilder.combinationsOf(data);
+
+        int threads = 4;
+        ExecutorService threadPool = Executors.newFixedThreadPool(threads);
+        AtomicInteger count = new AtomicInteger();
+
+        // split to equal parts to compute parallelly
+        List<Combination<List<Integer>>> subSets = combinations.split( threads );
+        for (Combination<List<Integer>> subSet : subSets) {
+            threadPool.submit(() -> {
+                for (List<Integer> combination : subSet) {
+                    // uncomment line below to print computed combination
+                    // System.out.println(combination);
+                    count.incrementAndGet();
+                }
+            });
+        }
+
+        threadPool.shutdown();
+        threadPool.awaitTermination(20, TimeUnit.SECONDS);
+        System.out.println("Combinations: " + count + ", expectedCombinations: "+combinations.getCombinationsNumber());
 ```
 
 ## Benchmarking
