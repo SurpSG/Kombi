@@ -18,7 +18,7 @@ internal abstract class EncodableCartesianProduct<T> : CartesianProduct<T> {
 
     internal val bases: IntArray by lazy { radixes(values) }
 
-    override fun iterator(): Iterator<T> {
+    override fun iterator(): MutableIterator<T> {
         return if(values.isNotEmpty()){
             DecodableIterator(this)
         } else{
@@ -26,8 +26,8 @@ internal abstract class EncodableCartesianProduct<T> : CartesianProduct<T> {
         }
     }
 
-    override val combinationsCount : BigInteger by lazy {
-        values.multiplyAll { size }
+    override fun combinationsCount() : BigInteger {
+        return values.multiplyAll { size }
     }
 
     override fun stream(): Stream<T> {
@@ -44,13 +44,16 @@ internal abstract class EncodableCartesianProduct<T> : CartesianProduct<T> {
 
 private class DecodableIterator<T>(
         cartesianProduct: EncodableCartesianProduct<T>
-) : Iterator<T> {
+) : MutableIterator<T> {
 
     private val sequenceDecoder = cartesianProduct.decoder
     private val dataEncoder = CombinationMask(cartesianProduct.bases)
 
     override fun hasNext() = dataEncoder.hasNext()
     override fun next() : T = sequenceDecoder.decode(dataEncoder.next())
+    override fun remove() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 internal class CartesianProductSpliterator<T>(
@@ -100,9 +103,9 @@ internal class CartesianProductSpliterator<T>(
     }
 
     private fun computeSize(): Pair<Boolean, Long> {
-        return if(cartesianProduct.combinationsCount > BigInteger.valueOf(Long.MAX_VALUE))
+        return if(cartesianProduct.combinationsCount() > BigInteger.valueOf(Long.MAX_VALUE))
             Pair(false, Long.MAX_VALUE)
         else
-            Pair(true, cartesianProduct.combinationsCount.longValueExact())
+            Pair(true, cartesianProduct.combinationsCount().longValueExact())
     }
 }

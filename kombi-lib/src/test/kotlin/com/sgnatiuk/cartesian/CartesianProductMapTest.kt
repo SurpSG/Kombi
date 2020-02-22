@@ -39,8 +39,8 @@ internal class CartesianProductMapTest {
         var result = 1.BigInt
         val cartesianProductMap = cartesianProductOf(dataMap)
         dataMap.values.forEach { result *= it.size.BigInt }
-        assertEquals(result, cartesianProductMap.combinationsCount)
-        assertEquals(expectedCartesianMap.size.BigInt, cartesianProductMap.combinationsCount)
+        assertEquals(result, cartesianProductMap.combinationsCount())
+        assertEquals(expectedCartesianMap.size.BigInt, cartesianProductMap.combinationsCount())
     }
 
     @Test

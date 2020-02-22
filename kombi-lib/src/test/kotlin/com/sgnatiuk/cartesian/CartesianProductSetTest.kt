@@ -38,8 +38,8 @@ internal class CartesianProductSetTest {
         var result = 1.BigInt
         val cartesianProductSet = cartesianProductOf(dataList)
         dataList.forEach { result *= it.size.BigInt }
-        assertEquals(result, cartesianProductSet.combinationsCount)
-        assertEquals(expectedCartesianList.size.BigInt, cartesianProductSet.combinationsCount)
+        assertEquals(result, cartesianProductSet.combinationsCount())
+        assertEquals(expectedCartesianList.size.BigInt, cartesianProductSet.combinationsCount())
     }
 
     @Test
