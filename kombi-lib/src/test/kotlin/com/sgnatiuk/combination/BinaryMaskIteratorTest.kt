@@ -12,7 +12,7 @@ internal class BinaryMaskIteratorTest {
     @Test
     fun `verify expected combinations count are generated`() {
         val binaryMaskIterator = BinaryMaskIterator(
-                1..combinationsCount,
+                Range(1, combinationsCount),
                 listBuilder
         )
         val combinations = HashSet<List<Int>>()

@@ -3,9 +3,9 @@ package com.sgnatiuk.combination
 import com.sgnatiuk.extensions.bitCount
 
 internal class BinaryMaskIterator<T>(
-        combinationsRange: LongRange,
+        combinationsRange: Range,
         private val collectionBuilder: CollectionBuilder<T>
-) : Iterator<T> {
+) : MutableIterator<T> {
 
     private val lastValue: Long = combinationsRange.last
 
@@ -28,5 +28,9 @@ internal class BinaryMaskIterator<T>(
         } while (tempMask > 0)
         combinationMask++
         return collection
+    }
+
+    override fun remove() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

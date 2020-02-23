@@ -2,7 +2,7 @@ package com.sgnatiuk.cartesian;
 
 import java.util.Iterator;
 
-public class CombinationMask implements Iterator<int[]> {
+class CombinationMask implements Iterator<int[]> {
 
     private final int[] bases;
     private final int[] mask;
