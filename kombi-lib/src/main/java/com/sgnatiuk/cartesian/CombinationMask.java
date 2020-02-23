@@ -33,16 +33,15 @@ public class CombinationMask implements Iterator<int[]> {
      * @return true if encoded was overflowed, otherwise false
      */
     private boolean increment() {
-        int extra = 1;
-        int index = mask.length - 1;
+        int overflow = 1;
+        int index = 0;
 
         do {
-            int temp = mask[index] + extra;
-            mask[index] = temp % this.bases[index];
-            extra = temp / this.bases[index];
-            --index;
-        } while (extra != 0 && index >= 0);
+            int incrementedCell = mask[index] + overflow;
+            mask[index] = incrementedCell % bases[index];
+            overflow = incrementedCell / bases[index++];
+        } while (overflow != 0 && index < bases.length);
 
-        return index < 0 && extra > 0;
+        return overflow > 0 && index == bases.length;
     }
 }

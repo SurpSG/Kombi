@@ -24,7 +24,7 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
             res.add(new ArrayList<>(originData));
         }
         if (!keepOrder) {
-            res.sort(new ValuesCountAsc<>());
+            res.sort(new ValuesCountDesc<>());
         }
         return res;
     }
@@ -51,7 +51,7 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
     public List<CartesianProduct<List<T>>> split(int n) {
         List<CartesianProduct<List<T>>> splitList = new ArrayList<>(n);
         ArrayList<List<T>> descSortedData = new ArrayList<>(values);
-        descSortedData.sort(new ValuesCountAsc<T>().reversed());
+        descSortedData.sort(new ValuesCountDesc<>());
 
         List<T> firstFieldValues = descSortedData.get(0);
         int parts = Math.min(n, firstFieldValues.size());
@@ -68,10 +68,10 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
         return splitList;
     }
 
-    private static class ValuesCountAsc<T> implements Comparator<Collection<T>> {
+    private static class ValuesCountDesc<T> implements Comparator<Collection<T>> {
         @Override
         public int compare(Collection<T> o1, Collection<T> o2) {
-            return o1.size() - o2.size();
+            return o2.size() - o1.size();
         }
     }
 }

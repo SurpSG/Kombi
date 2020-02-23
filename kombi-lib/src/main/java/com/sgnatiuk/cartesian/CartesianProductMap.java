@@ -16,7 +16,7 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
     CartesianProductMap(Map<K, ? extends Collection<V>> values, boolean keepOrder) {
         this.values = copyWithOrder(
                 values,
-                keepOrder ? (o1, o2) -> 0 : new ValuesCountAsc<>()
+                keepOrder ? (o1, o2) -> 0 : new ValuesCountDesc<>()
         );
         this.dataKeys = new ArrayList<>(this.values.keySet());
     }
@@ -66,10 +66,7 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
     public List<CartesianProduct<Map<K, V>>> split(int n) {
 
         List<CartesianProduct<Map<K, V>>> splitList = new ArrayList<>(n);
-        Map<K, ArrayList<V>> descSortedData = copyWithOrder(
-                values,
-                new ValuesCountAsc<K, V>().reversed()
-        );
+        Map<K, ArrayList<V>> descSortedData = copyWithOrder(values, new ValuesCountDesc<>());
         Map.Entry<K, ArrayList<V>> firstEntry = descSortedData.entrySet().stream().findFirst().orElseThrow(
                 () -> new IllegalStateException("Expected at least one item in: " + descSortedData)
         );
@@ -93,14 +90,14 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
     }
 
 
-    private static class ValuesCountAsc<K, V> implements Comparator<Map.Entry<K, ? extends Collection<V>>> {
+    private static class ValuesCountDesc<K, V> implements Comparator<Map.Entry<K, ? extends Collection<V>>> {
 
         @Override
         public int compare(
                 Map.Entry<K, ? extends Collection<V>> o1,
                 Map.Entry<K, ? extends Collection<V>> o2
         ) {
-            return o1.getValue().size() - o2.getValue().size();
+            return o2.getValue().size() - o1.getValue().size();
         }
     }
 }
