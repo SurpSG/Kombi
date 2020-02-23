@@ -1,9 +1,8 @@
-package com.sgnatiuk.cartesian.encodable.encoders
+package com.sgnatiuk.cartesian
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.lang.RuntimeException
 
 internal class CombinationMaskTest {
     private val testData = TestData(3)
@@ -27,21 +26,17 @@ internal class CombinationMaskTest {
         assertEquals(testData.expectedCombinations, combinationSet.size)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = IllegalArgumentException::class)
     fun `verify exception is thrown when passed empty array to constructor`() {
         CombinationMask(intArrayOf())
     }
 }
 
-class TestData(
-        val bases: IntArray
-){
+class TestData(val bases: IntArray){
     constructor(itemsCount: Int = 3) : this(createIntArray(itemsCount))
 
     val expectedCombinations: Int by lazy {
-        var res = 1
-        bases.forEach { res *= it }
-        res
+        bases.reduce { acc, i -> acc * i }
     }
 }
 

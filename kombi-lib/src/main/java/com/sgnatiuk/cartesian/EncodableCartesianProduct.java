@@ -1,6 +1,5 @@
 package com.sgnatiuk.cartesian;
 
-import com.sgnatiuk.cartesian.encodable.encoders.CombinationMask;
 import com.sgnatiuk.extensions.CollectionsExtKt;
 import org.jetbrains.annotations.NotNull;
 
