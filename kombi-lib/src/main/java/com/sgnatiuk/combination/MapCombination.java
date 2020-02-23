@@ -1,7 +1,5 @@
 package com.sgnatiuk.combination;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
 class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
@@ -25,7 +23,6 @@ class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
         return new MapCombination<>(originData, range);
     }
 
-    @NotNull
     @Override
     public Iterator<Map<K, V>> iterator() {
         return new BinaryMaskIterator<>(

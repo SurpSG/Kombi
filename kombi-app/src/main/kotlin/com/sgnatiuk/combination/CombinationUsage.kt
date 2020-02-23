@@ -1,5 +1,6 @@
 package com.sgnatiuk.combination
 
+import com.sgnatiuk.combination.CombinationsBuilder.combinationsOf
 import com.sgnatiuk.listOfStrings
 import com.sgnatiuk.mapIntToString
 

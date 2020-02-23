@@ -1,7 +1,5 @@
 package com.sgnatiuk.combination;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -77,7 +75,6 @@ class CombinationSpliterator<T> implements Spliterator<T> {
         }
     }
 
-    @NotNull
     public Spliterator<T> trySplit() {
         List<Combination<T>> combinationParts = combination.split(2);
         this.combination = combinationParts.get(1);

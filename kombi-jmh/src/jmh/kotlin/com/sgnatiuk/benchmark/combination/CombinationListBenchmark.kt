@@ -1,7 +1,7 @@
 package com.sgnatiuk.benchmark.combination
 
 import com.sgnatiuk.combination.Combination
-import com.sgnatiuk.combination.combinationsOf
+import com.sgnatiuk.combination.CombinationsBuilder.combinationsOf
 import org.openjdk.jmh.annotations.*
 
 open class CombinationListBenchmark {

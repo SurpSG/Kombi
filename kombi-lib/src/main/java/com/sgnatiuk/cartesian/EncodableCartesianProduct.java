@@ -1,7 +1,5 @@
 package com.sgnatiuk.cartesian;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Consumer;
@@ -20,7 +18,6 @@ abstract class EncodableCartesianProduct<T> implements CartesianProduct<T> {
         return multiplyAll(values(), Collection::size);
     }
 
-    @NotNull
     @Override
     public Iterator<T> iterator() {
         if (values().isEmpty()) {

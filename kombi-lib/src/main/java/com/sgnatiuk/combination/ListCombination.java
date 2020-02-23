@@ -1,7 +1,5 @@
 package com.sgnatiuk.combination;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +26,6 @@ class ListCombination<T> extends AbstractCombination<List<T>> {
         return new ListCombination<>(originData, range);
     }
 
-    @NotNull
     @Override
     public Iterator<List<T>> iterator() {
         return new BinaryMaskIterator<>(
