@@ -6,6 +6,8 @@ description = ''
 dependencies {
     jmh project(':kombi-lib')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile group: 'com.google.guava', name: 'guava', version: '28.2-jre'
+
 }
 
 compileKotlin {
@@ -23,8 +25,8 @@ jmh {
     jvmArgs = ['-Xms4g', '-Xmx4g']
 
 
-    benchmarkMode = ['thrpt'] // Benchmark mode. Available modes are: [Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all]
-    timeUnit = 's'// Output time unit. Available time units are: [m, s, ms, us, ns].
+    benchmarkMode = ['avgt'] // Benchmark mode. Available modes are: [Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all]
+    timeUnit = 'us'// Output time unit. Available time units are: [m, s, ms, us, ns].
     verbosity = 'NORMAL' // Verbosity mode. Available modes are: [SILENT, NORMAL, EXTRA]
     forceGC = true // Should JMH force GC between iterations?
     failOnError = false // Should JMH fail immediately if any benchmark had experienced the unrecoverable error?
