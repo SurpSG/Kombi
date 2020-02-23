@@ -10,7 +10,7 @@ internal class ListCombinationTest {
     private val listOf = listOf("1", "2", "3")
     private val combinationsCount = 2.pow(listOf.size) - 1
     private val range = Range(1, 3)
-    private val listCombination = combinationsOf(listOf) as AbstractCombination
+    private val listCombination = CombinationsBuilder.combinationsOf(listOf) as AbstractCombination
 
     @Test
     fun `verify combinations count calculated properly`() {

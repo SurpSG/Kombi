@@ -2,9 +2,7 @@ package com.sgnatiuk.combination;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
 
@@ -13,7 +11,7 @@ class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
     protected MapCombination(Map<K, V> originData) {
         this(
                 originData,
-                new Range(1, CombinationKt.calculateCombinationsNumber(originData.size()))
+                new Range(1, combinationsByItemsCount(originData.size()))
         );
     }
 
@@ -21,7 +19,6 @@ class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
         super(range);
         this.originData = originData;
     }
-
 
     @Override
     Combination<Map<K, V>> subCombination(Range range) {
@@ -33,10 +30,20 @@ class MapCombination<K, V> extends AbstractCombination<Map<K, V>> {
     public Iterator<Map<K, V>> iterator() {
         return new BinaryMaskIterator<>(
                 range,
-                new MapBuilder<>(
-                        originData,
-                        new ArrayList<>(originData.keySet())
-                )
+                new CollectionBuilder<Map<K, V>>() {
+                    List<K> dataKeys = new ArrayList<>(originData.keySet());
+
+                    @Override
+                    public Map<K, V> newCollection(int initialCapacity) {
+                        return new HashMap<>(initialCapacity);
+                    }
+
+                    @Override
+                    public void addItemByIndex(Map<K, V> collection, int index) {
+                        K key = dataKeys.get(index);
+                        collection.put(key, originData.get(key));
+                    }
+                }
         );
     }
 }

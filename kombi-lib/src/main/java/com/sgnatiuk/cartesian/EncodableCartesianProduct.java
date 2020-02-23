@@ -1,11 +1,11 @@
 package com.sgnatiuk.cartesian;
 
-import com.sgnatiuk.extensions.CollectionsExtKt;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -17,7 +17,7 @@ abstract class EncodableCartesianProduct<T> implements CartesianProduct<T> {
 
     @Override
     public BigInteger combinationsCount() {
-        return CollectionsExtKt.multiplyAll(values(), Collection::size);
+        return multiplyAll(values(), Collection::size);
     }
 
     @NotNull
@@ -58,6 +58,20 @@ abstract class EncodableCartesianProduct<T> implements CartesianProduct<T> {
             radixes[index++] = value.size();
         }
         return radixes;
+    }
+
+    public static <T> BigInteger multiplyAll(Iterable<T> items, Function<T, Integer> intValue) {
+        BigInteger result = BigInteger.ONE;
+        boolean collectionEmpty = true;
+
+        for (T item : items) {
+            collectionEmpty = false;
+            result = result.multiply(BigInteger.valueOf(
+                    intValue.apply(item)
+            ));
+        }
+
+        return collectionEmpty ? BigInteger.ZERO : result;
     }
 }
 

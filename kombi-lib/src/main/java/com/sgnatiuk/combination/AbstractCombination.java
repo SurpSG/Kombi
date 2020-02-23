@@ -1,8 +1,12 @@
 package com.sgnatiuk.combination;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -40,4 +44,46 @@ abstract class AbstractCombination<T> implements Combination<T> {
                 false
         );
     }
+
+    static long combinationsByItemsCount(int items) {
+        return (long) (Math.pow(2, items) - 1);
+    }
+}
+
+class CombinationSpliterator<T> implements Spliterator<T> {
+    private Iterator<T> combinationIterator;
+    private Combination<T> combination;
+
+    CombinationSpliterator(Combination<T> combination) {
+        this.combination = combination;
+        combinationIterator = this.combination.iterator();
+    }
+
+    public long estimateSize() {
+        return combination.combinationsNumber();
+    }
+
+    public int characteristics() {
+        return Spliterator.SIZED | Spliterator.SUBSIZED
+                | Spliterator.CONCURRENT | Spliterator.IMMUTABLE | Spliterator.ORDERED;
+    }
+
+    public boolean tryAdvance(Consumer<? super T> action) {
+        if (combinationIterator.hasNext()) {
+            action.accept(this.combinationIterator.next());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @NotNull
+    public Spliterator<T> trySplit() {
+        List<Combination<T>> combinationParts = combination.split(2);
+        this.combination = combinationParts.get(1);
+        this.combinationIterator = combination.iterator();
+        return new CombinationSpliterator<>(combinationParts.get(0));
+    }
+
+
 }
