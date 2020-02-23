@@ -1,5 +1,6 @@
 package com.sgnatiuk.cartesian
 
+import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.listOfLists
 import com.sgnatiuk.mapOfLists
 import kotlin.concurrent.thread
@@ -33,7 +34,7 @@ fun <T> parallelPrintCartesianProduct(inputData: Map<T, List<T>>) {
     parallelPrintCartesianProduct(cartesianProductOf(inputData))
 }
 
-fun <T> parallelPrintCartesianProduct(cartesianProduct: CartesianProduct<T>){
+fun <T> parallelPrintCartesianProduct(cartesianProduct: CartesianProduct<T>) {
     cartesianProduct.split(2).map { subProduct ->
         thread {
             subProduct.forEach(::println)

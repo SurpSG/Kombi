@@ -1,5 +1,6 @@
 package com.sgnatiuk.cartesian
 
+import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.dataList
 import com.sgnatiuk.expectedCartesianList
 import com.sgnatiuk.extensions.BigInt
@@ -12,7 +13,7 @@ internal class CartesianProductSetTest {
 
     @Test
     fun `verify empty collection is returned when passed empty collection`() {
-        val emptyCollection = ArrayList<List<Int>>()
+        val emptyCollection = emptyList<List<Int>>()
         cartesianProductOf(emptyCollection).forEach {
             throw RuntimeException("expected empty collection")
         }
