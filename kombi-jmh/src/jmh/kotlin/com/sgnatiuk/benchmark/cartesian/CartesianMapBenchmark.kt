@@ -1,7 +1,7 @@
 package com.sgnatiuk.benchmark.cartesian
 
+import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.cartesian.CartesianProduct
-import com.sgnatiuk.cartesian.cartesianProductOf
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

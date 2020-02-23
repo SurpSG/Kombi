@@ -41,5 +41,5 @@ class TestData(val bases: IntArray){
 }
 
 private fun createIntArray(size: Int): IntArray{
-    return IntArray(size) { it + 1 }
+    return IntArray(size) { it + 1 }.sortedArrayDescending()
 }
