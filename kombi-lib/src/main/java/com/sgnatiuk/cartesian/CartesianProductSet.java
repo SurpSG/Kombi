@@ -33,7 +33,7 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
     @Override
     protected MaskDecoder<List<T>> maskDecoder() {
         return encoded -> {
-            List<T> res = new ArrayList<>();
+            List<T> res = new ArrayList<>(encoded.length);
             for (int i = 0; i < encoded.length; i++) {
                 res.add(values.get(i).get(encoded[i]));
             }
