@@ -38,8 +38,8 @@ jmh {
     warmupForks = 0 // How many warmup forks to make for a single benchmark. 0 to disable warmup forks.
     threads = 1 // Number of worker threads to run with.
 
-    iterations = 10 // Number of measurement iterations to do.
-    warmupIterations = 10 // Number of warmup iterations to do.
+    iterations = 5 // Number of measurement iterations to do.
+    warmupIterations = 5 // Number of warmup iterations to do.
 
     humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt") // human-readable output file
     resultsFile = project.file("${project.buildDir}/reports/jmh/results.csv") // results file

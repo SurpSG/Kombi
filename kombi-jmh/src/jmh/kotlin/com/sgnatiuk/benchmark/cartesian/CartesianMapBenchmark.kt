@@ -20,14 +20,14 @@ open class CartesianMapBenchmark {
     }
 
     @Benchmark
-    fun cartesianProductMap(blackhole: Blackhole) {
+    fun Kombi_cartesianProduct_Maps(blackhole: Blackhole) {
         for (map in cartesianProductOf(mapOf, false)) {
             blackhole.consume(map)
         }
     }
 
     @Benchmark
-    fun cartesianProductMapKeepOrder(blackhole: Blackhole) {
+    fun Kombi_cartesianProduct_Maps_keepingOrder(blackhole: Blackhole) {
         for (map in cartesianProductOf(mapOf, true)) {
             blackhole.consume(map)
         }

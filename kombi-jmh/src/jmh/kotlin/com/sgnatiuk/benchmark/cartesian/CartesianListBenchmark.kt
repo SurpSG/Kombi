@@ -9,20 +9,22 @@ import org.openjdk.jmh.infra.Blackhole
 @State(Scope.Benchmark)
 open class CartesianListBenchmark {
 
-    @Param("3", "5", "7", "11") 
+    @Param("3", "5", "7", "11")
     var itemsQuantity: Int = 0
 
-    lateinit var listOfLists: List<Set<Int>>
+    lateinit var listOfSets: List<Set<Int>>
+    lateinit var listOfLists: List<List<Int>>
 
     @Setup(Level.Trial)
     fun doSetup() {
         listOfLists = List(itemsQuantity) { i ->
-            List(i + 1) { it }.toSet()
+            List(i + 1) { it }
         }
+        listOfSets = listOfLists.map { it.toSet() }
     }
 
     @Benchmark
-    fun cartesianProductList(blackhole: Blackhole) {
+    fun Kombi_cartesianProduct_Lists(blackhole: Blackhole) {
         for (combination in cartesianProductOf(listOfLists, false)) {
             for (combinationItem in combination) {
                 blackhole.consume(combinationItem)
@@ -31,8 +33,8 @@ open class CartesianListBenchmark {
     }
 
     @Benchmark
-    fun cartesianProductListKeepOrder(blackhole: Blackhole) {
-        for (combination in cartesianProductOf(listOfLists, true)) {
+    fun Kombi_cartesianProduct_Lists_keepingOrder(blackhole: Blackhole) {
+        for (combination in cartesianProductOf(listOfSets, true)) {
             for (combinationItem in combination) {
                 blackhole.consume(combinationItem)
             }
@@ -40,8 +42,8 @@ open class CartesianListBenchmark {
     }
 
     @Benchmark
-    fun cartesianProductListsGuava(blackhole: Blackhole) {
-        for (combination in Sets.cartesianProduct(listOfLists)) {
+    fun Guava_cartesianProduct_Sets(blackhole: Blackhole) {
+        for (combination in Sets.cartesianProduct(listOfSets)) {
             for (combinationItem in combination) {
                 blackhole.consume(combinationItem)
             }
@@ -49,7 +51,7 @@ open class CartesianListBenchmark {
     }
 
     @Benchmark
-    fun cartesianProductSetsGuava(blackhole: Blackhole) {
+    fun Guava_cartesianProduct_Lists(blackhole: Blackhole) {
         for (combination in Lists.cartesianProduct(listOfLists)) {
             for (combinationItem in combination) {
                 blackhole.consume(combinationItem)

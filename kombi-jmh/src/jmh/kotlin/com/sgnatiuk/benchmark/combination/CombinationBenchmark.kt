@@ -21,14 +21,14 @@ open class CombinationBenchmark {
     }
 
     @Benchmark
-    fun combinationList(blackhole: Blackhole) {
+    fun Kombi_combinations_list(blackhole: Blackhole) {
         for (nextCombination in combinationsOf(list)) {
             blackhole.consume(nextCombination)
         }
     }
 
     @Benchmark
-    fun combinationMap(blackhole: Blackhole) {
+    fun Kombi_combinations_map(blackhole: Blackhole) {
         for (nextCombination in combinationsOf(map)) {
             blackhole.consume(nextCombination)
         }
