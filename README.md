@@ -24,7 +24,7 @@ To get even better throughput(see [Benchmarking](#benchmarking) section), comput
     <dependency>
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
-      <version>2.2</version>
+      <version>3.0.0</version>
     </dependency>
 </dependencies>
 ```
@@ -35,27 +35,18 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:2.2'
+    compile 'com.sgnatiuk:kombi:3.0.0'
 }
 ```
 ## Combinations
 `Combination<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
 To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function. 
 ### Usage for lists
-#### Java
 ```java
     List<String> inputData = Arrays.asList("A", "B", "C");
     
     Combination<List<String>> combinations = CombinationsBuilder.combinationsOf(inputData);
     combinations.stream().forEach(System.out::println);
-```
-#### Kotlin
-```kotlin
-    import com.sgnatiuk.combination.combinationsOf
-    
-    val data = listOf("A", "B", "C")
-    combinationsOf(data).forEach(::println)
-    
 ```
 The output:
 ```
@@ -69,7 +60,6 @@ The output:
 ```
 
 ### Usage for maps
-#### Java
 ```java
     Map<Integer, String> data = new HashMap<>();
     data.put(1, "1");
@@ -78,17 +68,6 @@ The output:
     
     Combination<Map<Integer, String>> cartesianProduct = CombinationsBuilder.combinationsOf(data);
     cartesianProduct.forEach(System.out::println);
-```
-#### Kotlin
-```kotlin
-    import com.sgnatiuk.combination.combinationsOf
-    
-    val data = mapOf(
-            1 to "1",
-            2 to "2",
-            3 to "3"
-    )
-    combinationsOf(data).forEach(::println)
 ```
 The output:
 ```
@@ -105,7 +84,6 @@ The output:
 `CartesianProduct<Collection<T>` is an iterable object, so you can use it in 'for-each' loop.
 To get items lazily you can use the iterator by calling `iterator()` function or you can get them as the stream by calling `stream()` function.
 ### Usage for lists
-#### Java
 ```java
     List<List<Integer>> data = Arrays.asList(
             Arrays.asList(1, 2, 3),
@@ -115,17 +93,6 @@ To get items lazily you can use the iterator by calling `iterator()` function or
     
     CartesianProduct<List<Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, false);
     cartesianProduct.forEach(System.out::println);
-```
-#### Kotlin
-```kotlin
-    import com.sgnatiuk.combination.combinationsOf
-
-    val data = listOf(
-            listOf(1, 2, 3),
-            listOf(4, 5),
-            listOf(6)
-    )
-    cartesianProductOf(data).forEach(::println)
 ```
 The output:
 ```
@@ -138,7 +105,6 @@ The output:
 ```
 
 ### Usage for maps
-#### Java
 ```java
     Map<Integer, List<Integer>> data = new HashMap<>();
     data.put(1, Arrays.asList(1, 2, 3));
@@ -147,17 +113,6 @@ The output:
     
     CartesianProduct<Map<Integer, Integer>> cartesianProduct = CartesianBuilder.cartesianProductOf(data, true);
     cartesianProduct.forEach(System.out::println);
-```
-#### Kotlin
-```kotlin
-    import com.sgnatiuk.cartesian.cartesianProductOf
-
-    val data = mapOf(
-            1 to listOf(1, 2, 3),
-            2 to listOf(4, 5),
-            3 to listOf(6)
-    )
-    cartesianProductOf(data).forEach(::println)
 ```
 The output:
 ```
@@ -168,6 +123,8 @@ The output:
     {1=3, 2=4, 3=6}
     {1=3, 2=5, 3=6}
 ```
+### Performance tip
+There is an overloaded builder method `CartesianBuilder.cartesianProductOf(..., boolean keepOrder)` that accepts boolean parameter `keepOrder`. By default the parameter is `false` that provides a little bit better performance. See (see [Benchmarking](#benchmarking) section) to compare.
 
 ## Parallel computation
 
