@@ -1,7 +1,6 @@
 package com.sgnatiuk.combination
 
 import com.sgnatiuk.extensions.pow
-import com.sgnatiuk.extensions.rangeLength
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -10,11 +9,12 @@ import java.util.stream.Collectors
 internal class ListCombinationTest {
     private val listOf = listOf("1", "2", "3")
     private val combinationsCount = 2.pow(listOf.size) - 1
-    private val listCombination = combinationsOf(listOf) as ListCombination
+    private val range = Range(1, 3)
+    private val listCombination = CombinationsBuilder.combinationsOf(listOf) as AbstractCombination
 
     @Test
     fun `verify combinations count calculated properly`() {
-        assertEquals(combinationsCount, listCombination.combinationsNumber)
+        assertEquals(combinationsCount, listCombination.combinationsNumber())
     }
 
     @Test
@@ -48,7 +48,7 @@ internal class ListCombinationTest {
 
     @Test
     fun `verify split generates chunks`() {
-        val combinationsNumber = listCombination.combinationsNumber.toInt()
+        val combinationsNumber = listCombination.combinationsNumber().toInt()
         repeat(combinationsNumber) {
             val splitFactor = it + 1
             val splitCombi = listCombination.split(splitFactor)
@@ -58,17 +58,16 @@ internal class ListCombinationTest {
 
     @Test
     fun `verify subCombination creates combination with expected size`() {
-        val range = 1L..3
+
         val subCombination = listCombination.subCombination(range)
-        assertEquals(range.rangeLength(), subCombination.combinationsNumber)
+        assertEquals(range.length(), subCombination.combinationsNumber())
     }
 
     @Test
     fun `verify subCombination creates sub combination`() {
-        val range = 1L..3
         val allCombinations: Set<Set<String>> = listCombination.map { it.toSet() }.toSet()
         val subCombination = listCombination.subCombination(range)
-        assertTrue(subCombination.combinationsNumber <= listCombination.combinationsNumber)
+        assertTrue(subCombination.combinationsNumber() <= listCombination.combinationsNumber())
         subCombination.map { it.toSet() }.forEach {
             allCombinations.contains(it)
         }

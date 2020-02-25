@@ -38,20 +38,28 @@ public class CartesianUsage {
     }
 
     public static <T> void parallelPrintCartesianProduct(List<List<T>> inputData) {
-        System.out.println("Split Cartesian product of " + inputData);
+        System.out.println("Split Cartesian product for parallel execution " + inputData);
         parallelPrintCartesianProduct(CartesianBuilder.cartesianProductOf(inputData));
     }
 
     public static <K, V> void parallelPrintCartesianProduct(Map<K, List<V>> inputData) {
-        System.out.println("Split Cartesian product of " + inputData);
+        System.out.println("Split Cartesian product for parallel execution " + inputData);
         parallelPrintCartesianProduct(CartesianBuilder.cartesianProductOf(inputData));
     }
 
     public static <T> void parallelPrintCartesianProduct(CartesianProduct<T> cartesianProduct) {
-        List<Thread> threadList = cartesianProduct.split(2).stream()
-                .map(subProduct -> (Runnable) () ->
-                        subProduct.forEach(System.out::println)
-                ).map(Thread::new).collect(Collectors.toList());
+        List<Thread> threadList =
+                cartesianProduct.split(3)
+                        .stream()
+                        .map(subProduct -> (Runnable) () -> {
+                            for (T product : subProduct) {
+                                System.out.format(
+                                        "Thread id=%s: %s\n",
+                                        Thread.currentThread().getId(),
+                                        product
+                                );
+                            }
+                        }).map(Thread::new).collect(Collectors.toList());
 
         threadList.forEach(Thread::start);
         threadList.forEach(CartesianUsage::join);

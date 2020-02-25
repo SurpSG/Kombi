@@ -1,35 +1,35 @@
 package com.sgnatiuk.benchmark.cartesian
 
-import com.sgnatiuk.cartesian.CartesianProduct
-import com.sgnatiuk.cartesian.cartesianProductOf
+import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import org.openjdk.jmh.annotations.*
-import java.util.concurrent.TimeUnit
+import org.openjdk.jmh.infra.Blackhole
 
+@State(Scope.Benchmark)
 open class CartesianMapBenchmark {
 
-    @State(Scope.Benchmark)
-    open class SuperState {
-        var result: Map<Int, String>? = null
-        lateinit var cartesianProduct: CartesianProduct<Map<Int, String>>
-        lateinit var iterator: Iterator<Map<Int, String>>
+    @Param("7")
+    var itemsQuantity: Int = 0
 
-        @Setup(Level.Trial)
-        fun doSetup() {
-            val mapOf = (1..10).reversed().map { index ->
-                index to List(index){ it.toString() }
-            }.toMap()
-            cartesianProduct = cartesianProductOf(mapOf)
-            iterator = cartesianProduct.iterator()
-        }
+    lateinit var mapOf: Map<Int, List<Int>>
 
-        @TearDown(Level.Trial)
-        fun doTearDown() {
+    @Setup(Level.Trial)
+    fun doSetup() {
+         mapOf = (1..itemsQuantity).map { index ->
+            index to List(index) { it }
+        }.toMap()
+    }
+
+    @Benchmark
+    fun Kombi_cartesianProduct_Maps(blackhole: Blackhole) {
+        for (map in cartesianProductOf(mapOf, false)) {
+            blackhole.consume(map)
         }
     }
 
     @Benchmark
-    @OutputTimeUnit(TimeUnit.SECONDS)
-    fun nextCartesianList(state: SuperState) {
-        state.result = state.iterator.next()
+    fun Kombi_cartesianProduct_Maps_keepingOrder(blackhole: Blackhole) {
+        for (map in cartesianProductOf(mapOf, true)) {
+            blackhole.consume(map)
+        }
     }
 }

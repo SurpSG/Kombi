@@ -1,5 +1,6 @@
 package com.sgnatiuk.cartesian
 
+import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.dataMap
 import com.sgnatiuk.expectedCartesianMap
 import com.sgnatiuk.extensions.BigInt
@@ -12,15 +13,14 @@ internal class CartesianProductMapTest {
 
     @Test
     fun `verify empty collection is returned when passed empty collection`() {
-        val emptyCollection = ArrayList<List<Int>>()
-        CartesianProductSet(emptyCollection).forEach {
+        cartesianProductOf(emptyMap<Int, Collection<Int>>()).forEach {
             throw RuntimeException("expected empty collection")
         }
     }
 
     @Test
     fun `verify Cartesian product set returns all possible combinations`() {
-        val result: List<Map<Int, Int>> = CartesianProductMap(dataMap, false).map { it }
+        val result: List<Map<Int, Int>> = cartesianProductOf(dataMap, false).map { it }
         expectedCartesianMap.forEach {
             assertTrue(result.contains(it))
         }
@@ -39,8 +39,8 @@ internal class CartesianProductMapTest {
         var result = 1.BigInt
         val cartesianProductMap = cartesianProductOf(dataMap)
         dataMap.values.forEach { result *= it.size.BigInt }
-        assertEquals(result, cartesianProductMap.combinationsCount)
-        assertEquals(expectedCartesianMap.size.BigInt, cartesianProductMap.combinationsCount)
+        assertEquals(result, cartesianProductMap.combinationsCount())
+        assertEquals(expectedCartesianMap.size.BigInt, cartesianProductMap.combinationsCount())
     }
 
     @Test
@@ -94,7 +94,7 @@ internal class CartesianProductMapTest {
         val cartesianProduct = cartesianProductOf(dataMap)
         val actual = cartesianProduct.stream()
                 .parallel()
-                .peek{ threads += Thread.currentThread().id }
+                .peek { threads += Thread.currentThread().id }
                 .collect(Collectors.toSet())
 
         assertEquals(expectedCartesianMap.toSet(), actual)

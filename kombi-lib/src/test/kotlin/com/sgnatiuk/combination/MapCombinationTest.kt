@@ -1,7 +1,6 @@
 package com.sgnatiuk.combination
 
 import com.sgnatiuk.extensions.pow
-import com.sgnatiuk.extensions.rangeLength
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -14,11 +13,11 @@ internal class MapCombinationTest {
             3 to "3"
     )
     private val combinationsCount = 2.pow(map.size) - 1
-    private val mapCombination = combinationsOf(map) as MapCombination
+    private val mapCombination = CombinationsBuilder.combinationsOf(map) as AbstractCombination
 
     @Test
     fun `verify combinations count calculated properly`() {
-        assertEquals(combinationsCount, mapCombination.combinationsNumber)
+        assertEquals(combinationsCount, mapCombination.combinationsNumber())
     }
 
     @Test
@@ -54,7 +53,7 @@ internal class MapCombinationTest {
 
     @Test
     fun `verify split generates chunks`() {
-        val combinationsNumber = mapCombination.combinationsNumber.toInt()
+        val combinationsNumber = mapCombination.combinationsNumber().toInt()
         repeat(combinationsNumber) {
             val splitFactor = it + 1
             val splitCombi = mapCombination.split(splitFactor)
@@ -64,17 +63,17 @@ internal class MapCombinationTest {
 
     @Test
     fun `verify subCombination creates combination with expected size`() {
-        val range = 1L..3
+        val range = Range(1, 3)
         val subCombination = mapCombination.subCombination(range)
-        assertEquals(range.rangeLength(), subCombination.combinationsNumber)
+        assertEquals(range.length(), subCombination.combinationsNumber())
     }
 
     @Test
     fun `verify subCombination creates sub combination`() {
-        val range = 1L..3
+        val range = Range(1, 3)
         val allCombinations = mapCombination.toSet()
         val subCombination = mapCombination.subCombination(range)
-        assertTrue(subCombination.combinationsNumber <= mapCombination.combinationsNumber)
+        assertTrue(subCombination.combinationsNumber() <= mapCombination.combinationsNumber())
         subCombination.forEach {
             allCombinations.contains(it)
         }
