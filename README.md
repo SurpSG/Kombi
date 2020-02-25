@@ -159,25 +159,42 @@ Measured throughput of generation of combination/cartesian product item (generat
 
 Benchmark results:
 ```
-Ubuntu 16.04 TLS
-Intel® Core™ i5-2500 CPU @ 3.30GHz × 4
+Ubuntu 18.04.4 LTS
+Intel® Core™ i7-6500U CPU @ 2.50GHz × 4
 JMH version: 1.19
-VM version: JDK 1.8.0_144, VM 25.144-b01
-VM invoker: /usr/lib/jvm/java-8-oracle/jre/bin/java
+VM version: JDK 1.8.0_242, VM 25.242-b08
+VM invoker: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 VM options: -Xms4g -Xmx4g
 Warmup: 10 iterations, 1 s each
 Measurement: 10 iterations, 1 s each
 Timeout: 10 min per iteration
 Threads: 1 thread, will synchronize iterations
-Benchmark mode: Throughput, ops/time
+Benchmark mode: Average time, time/op
 
-Benchmark                                                          Mode  Cnt         Score        Error  Units
-c.s.b.cartesian.CartesianListBenchmark.nextCartesianMap           thrpt   10  11145467.663 ± 154455.324  ops/s
-c.s.b.cartesian.CartesianListKeepOrderBenchmark.nextCartesianMap  thrpt   10  11235119.916 ±  68636.744  ops/s
-c.s.b.cartesian.CartesianMapBenchmark.nextCartesianList           thrpt   10   3543765.382 ±  19372.030  ops/s
-c.s.b.cartesian.CartesianMapKeepOrderBenchmark.nextCartesianList  thrpt   10   3532589.782 ±  20227.118  ops/s
-c.s.b.combination.CombinationListBenchmark.nextCombinationList    thrpt   10   5553247.849 ± 122736.874  ops/s
-c.s.b.combination.CombinationMapBenchmark.nextCombinationMap      thrpt   10   2184342.995 ± 188794.436  ops/s
+Benchmark                                                                         (itemsQuantity)  Mode  Cnt        Score        Error  Units
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             3  avgt   10        0.416 ±      0.004  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             5  avgt   10        8.983 ±      0.045  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             7  avgt   10      525.439 ±      2.649  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                            11  avgt   10  6402100.731 ± 208391.654  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              3  avgt   10        0.835 ±      0.010  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              5  avgt   10       16.800 ±      0.203  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              7  avgt   10      745.600 ±     13.021  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                             11  avgt   10  8956251.389 ±  54373.550  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             3  avgt   10        0.525 ±      0.002  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             5  avgt   10       10.777 ±      0.165  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             7  avgt   10      535.627 ±     44.617  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                            11  avgt   10  5461936.892 ±  20583.561  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                3  avgt   10        0.608 ±      0.007  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                5  avgt   10       12.682 ±      1.236  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                7  avgt   10      578.047 ±      3.468  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder               11  avgt   10  6385427.416 ± 271354.148  us/op
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps                               7  avgt   10     1019.071 ±     15.560  us/op
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps_keepingOrder                  7  avgt   10     1086.156 ±     10.034  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 11  avgt   10      220.303 ±      1.957  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 19  avgt   10    78645.589 ±   1509.309  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  11  avgt   10      463.854 ±      1.873  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  19  avgt   10   169522.011 ±    695.623  us/op
+
 ```
 
 Feel free to run benchmarks by yourself:

@@ -19,7 +19,7 @@ compileTestKotlin {
 
 jmhJar.archiveFileName = 'benchmarks.jar'
 jmh {
-    jmhVersion = '1.19' // Specifies JMH version
+    jmhVersion = '1.21' // Specifies JMH version
 
     include = ['.*'] // include pattern (regular expression) for benchmarks to be executed
     jvmArgs = ['-Xms4g', '-Xmx4g']
