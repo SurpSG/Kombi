@@ -5,8 +5,14 @@ import com.google.common.collect.Sets
 import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.infra.Blackhole
+import java.util.concurrent.TimeUnit
 
 @State(Scope.Benchmark)
+@Fork(2)
+@Warmup(iterations = 5)
+@Measurement(iterations = 5)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 open class CartesianListBenchmark {
 
     @Param("3", "5", "7", "11")
@@ -21,6 +27,10 @@ open class CartesianListBenchmark {
             List(i + 1) { it }
         }
         listOfSets = listOfLists.map { it.toSet() }
+        println("\n=================================================")
+        println("itemsQuantity=$itemsQuantity")
+        println("combinationsQuantity=${cartesianProductOf(listOfLists).combinationsCount()}")
+        println("=================================================\n")
     }
 
     @Benchmark

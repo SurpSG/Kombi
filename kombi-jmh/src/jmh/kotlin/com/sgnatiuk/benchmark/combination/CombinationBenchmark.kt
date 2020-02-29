@@ -3,9 +3,14 @@ package com.sgnatiuk.benchmark.combination
 import com.sgnatiuk.combination.CombinationsBuilder.combinationsOf
 import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.infra.Blackhole
-
+import java.util.concurrent.TimeUnit
 
 @State(Scope.Benchmark)
+@Fork(2)
+@Warmup(iterations = 5)
+@Measurement(iterations = 5)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 open class CombinationBenchmark {
 
     @Param("11", "19")
@@ -18,6 +23,10 @@ open class CombinationBenchmark {
     fun doSetup() {
         list = List(itemsQuantity){ it }
         map = (1..itemsQuantity).map { it to it.toString() }.toMap()
+        println("\n=================================================")
+        println("itemsQuantity=$itemsQuantity")
+        println("combinationsQuantity=${combinationsOf(list).combinationsNumber()}")
+        println("=================================================\n")
     }
 
     @Benchmark
