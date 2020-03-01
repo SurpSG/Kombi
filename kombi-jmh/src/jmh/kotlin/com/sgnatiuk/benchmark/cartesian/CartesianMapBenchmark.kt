@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 open class CartesianMapBenchmark {
 
-    @Param("5, 7")
+    @Param("5", "7")
     var itemsQuantity: Int = 0
 
     lateinit var mapOf: Map<Int, List<Int>>

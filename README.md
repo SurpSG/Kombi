@@ -155,49 +155,61 @@ There is an overloaded builder method `CartesianBuilder.cartesianProductOf(..., 
 ```
 
 ## Benchmarking
-Measured throughput of generation of combination/cartesian product item (generated items per second)
-
-Benchmark results:
-```
-Ubuntu 18.04.4 LTS
-Intel® Core™ i7-6500U CPU @ 2.50GHz × 4
-JMH version: 1.19
-VM version: JDK 1.8.0_242, VM 25.242-b08
-VM invoker: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-VM options: -Xms4g -Xmx4g
-Warmup: 10 iterations, 1 s each
-Measurement: 10 iterations, 1 s each
-Timeout: 10 min per iteration
-Threads: 1 thread, will synchronize iterations
-Benchmark mode: Average time, time/op
-
-Benchmark                                                                         (itemsQuantity)  Mode  Cnt        Score        Error  Units
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             3  avgt   10        0.416 ±      0.004  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             5  avgt   10        8.983 ±      0.045  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             7  avgt   10      525.439 ±      2.649  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                            11  avgt   10  6402100.731 ± 208391.654  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              3  avgt   10        0.835 ±      0.010  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              5  avgt   10       16.800 ±      0.203  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              7  avgt   10      745.600 ±     13.021  us/op
-c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                             11  avgt   10  8956251.389 ±  54373.550  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             3  avgt   10        0.525 ±      0.002  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             5  avgt   10       10.777 ±      0.165  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             7  avgt   10      535.627 ±     44.617  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                            11  avgt   10  5461936.892 ±  20583.561  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                3  avgt   10        0.608 ±      0.007  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                5  avgt   10       12.682 ±      1.236  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                7  avgt   10      578.047 ±      3.468  us/op
-c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder               11  avgt   10  6385427.416 ± 271354.148  us/op
-c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps                               7  avgt   10     1019.071 ±     15.560  us/op
-c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps_keepingOrder                  7  avgt   10     1086.156 ±     10.034  us/op
-c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 11  avgt   10      220.303 ±      1.957  us/op
-c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 19  avgt   10    78645.589 ±   1509.309  us/op
-c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  11  avgt   10      463.854 ±      1.873  us/op
-c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  19  avgt   10   169522.011 ±    695.623  us/op
-
-```
+Measured time of generation of combination/cartesian product items (microseconds to generate all items)
 
 Feel free to run benchmarks by yourself:
 ```
 ./gradlew clean kombi-jmh:jmh
 ```
+
+
+Benchmark results(less is better):
+```
+Ubuntu 18.04.4 LTS
+Intel® Core™ i7-6500U CPU @ 2.50GHz × 4
+# JMH version: 1.22
+# VM version: JDK 1.8.0_242, OpenJDK 64-Bit Server VM, 25.242-b08
+# VM invoker: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+# VM options: -Xms512m -Xmx1g
+# Warmup: 5 iterations, 10 s each
+# Measurement: 5 iterations, 10 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+
+Benchmark                                                                         (itemsQuantity)  Mode  Cnt        Score        Error  Units
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             3  avgt   10        0.396 ±      0.002  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             5  avgt   10        8.592 ±      0.190  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                             7  avgt   10      507.613 ±      3.286  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Lists                            11  avgt   10  6047357.993 ±  11218.642  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             3  avgt   10        0.363 ±      0.005  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             5  avgt   10        6.838 ±      0.176  us/op      
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                             7  avgt   10      374.914 ±     69.084  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists                            11  avgt   10  3360446.209 ±  45311.037  us/op
+
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              3  avgt   10        0.815 ±      0.066  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              5  avgt   10       15.611 ±      0.578  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                              7  avgt   10      645.309 ±     43.153  us/op
+c.s.b.cartesian.CartesianListBenchmark.Guava_cartesianProduct_Sets                             11  avgt   10  7492806.803 ± 137744.113  us/op
+
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                3  avgt   10        0.449 ±      0.059  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                5  avgt   10        8.432 ±      0.260  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder                7  avgt   10      407.532 ±      1.454  us/op
+c.s.b.cartesian.CartesianListBenchmark.Kombi_cartesianProduct_Lists_keepingOrder               11  avgt   10  4061078.368 ±  42057.603  us/op
+
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps                               5  avgt   10       18.971 ±      1.902  us/op
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps                               7  avgt   10     1050.295 ±     20.054  us/op
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps_keepingOrder                  5  avgt   10       19.619 ±      2.603  us/op
+c.s.b.cartesian.CartesianMapBenchmark.Kombi_cartesianProduct_Maps_keepingOrder                  7  avgt   10     1212.077 ±    139.650  us/op
+
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 11  avgt   10      216.704 ±      3.633  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_list                                 19  avgt   10    77641.630 ±   1561.054  us/op
+
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  11  avgt   10      467.513 ±      2.014  us/op
+c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                                  19  avgt   10   170390.506 ±   3108.922  us/op
+
+```
+Comparing performance with Guava(microseconds per generation, less is better):
+
+![](kombi-jmh/charts/items_39916800.jpg | width=50)
+
