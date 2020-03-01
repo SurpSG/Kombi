@@ -211,5 +211,5 @@ c.s.b.combination.CombinationBenchmark.Kombi_combinations_map                   
 ```
 Comparing performance with Guava(microseconds per generation, less is better):
 
-![](kombi-jmh/charts/items_39916800.jpg =250x)
+![](kombi-jmh/charts/items_39916800.jpg)
 
