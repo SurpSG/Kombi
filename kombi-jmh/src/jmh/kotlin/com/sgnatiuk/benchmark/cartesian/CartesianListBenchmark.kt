@@ -24,48 +24,49 @@ open class CartesianListBenchmark {
     @Setup(Level.Trial)
     fun doSetup() {
         listOfLists = List(itemsQuantity) { i ->
-            List(i + 1) { it }
+            List(i + 1) { it + 1 }
         }
         listOfSets = listOfLists.map { it.toSet() }
         println("\n=================================================")
-        println("itemsQuantity=$itemsQuantity")
         println("combinationsQuantity=${cartesianProductOf(listOfLists).combinationsCount()}")
+        println("Data:")
+        listOfLists.forEach {
+            println(it)
+        }
         println("=================================================\n")
     }
 
     @Benchmark
     fun Kombi_cartesianProduct_Lists(blackhole: Blackhole) {
         for (combination in cartesianProductOf(listOfLists, false)) {
-            for (combinationItem in combination) {
-                blackhole.consume(combinationItem)
-            }
+            iterateWithIterator(combination, blackhole)
         }
     }
 
     @Benchmark
     fun Kombi_cartesianProduct_Lists_keepingOrder(blackhole: Blackhole) {
         for (combination in cartesianProductOf(listOfSets, true)) {
-            for (combinationItem in combination) {
-                blackhole.consume(combinationItem)
-            }
+            iterateWithIterator(combination, blackhole)
         }
     }
 
     @Benchmark
     fun Guava_cartesianProduct_Sets(blackhole: Blackhole) {
         for (combination in Sets.cartesianProduct(listOfSets)) {
-            for (combinationItem in combination) {
-                blackhole.consume(combinationItem)
-            }
+            iterateWithIterator(combination, blackhole)
         }
     }
 
     @Benchmark
     fun Guava_cartesianProduct_Lists(blackhole: Blackhole) {
         for (combination in Lists.cartesianProduct(listOfLists)) {
-            for (combinationItem in combination) {
-                blackhole.consume(combinationItem)
-            }
+            iterateWithIterator(combination, blackhole)
+        }
+    }
+
+    private fun iterateWithIterator(combination: MutableList<Int>, blackhole: Blackhole) {
+        for (combinationItem in combination) {
+            blackhole.consume(combinationItem)
         }
     }
 }
