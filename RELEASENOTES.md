@@ -1,5 +1,5 @@
 v3.0.1
-* performance tuning of a generation of the cartesian product from Collection<Collection<T>> 
+* 'Cartesian product' from Collection<Collection<T>> performance tuning.(~40% speed-up)
 
 v3.0.0
 * The library is fully migrated from Kotlin to Java to avoid adding of Kotlin runtime dependency to Java-only projects.
