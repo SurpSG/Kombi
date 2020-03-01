@@ -24,7 +24,7 @@ To get even better throughput(see [Benchmarking](#benchmarking) section), comput
     <dependency>
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
-      <version>3.0.0</version>
+      <version>3.0.1</version>
     </dependency>
 </dependencies>
 ```
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:3.0.0'
+    compile 'com.sgnatiuk:kombi:3.0.1'
 }
 ```
 ## Combinations
