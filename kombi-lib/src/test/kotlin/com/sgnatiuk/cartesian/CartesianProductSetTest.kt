@@ -23,6 +23,16 @@ internal class CartesianProductSetTest {
         checkCartesianProductIsEmpty(emptyCollection)
     }
 
+    @Test
+    fun `cartesian product of list with at least one empty collection should be empty`() {
+        val emptyCollection = listOf(
+                emptyList(),
+                listOf(1),
+                listOf(1, 2)
+        )
+        checkCartesianProductIsEmpty(emptyCollection)
+    }
+
     private fun checkCartesianProductIsEmpty(list: List<List<Int>>) {
         cartesianProductOf(list).apply {
             assertEquals(0, combinationsCount().longValueExact())
