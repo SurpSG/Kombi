@@ -56,6 +56,7 @@ internal class CartesianProductSetTest {
         val emptyCollection = listOf(emptyList<Int>())
         val count = cartesianProductOf(emptyCollection)
                 .stream()
+                .parallel()
                 .flatMap { it.stream() }
                 .count()
         assertEquals(0, count)
@@ -70,10 +71,7 @@ internal class CartesianProductSetTest {
     @Test
     fun `verify Cartesian product set with keep order returns all possible combinations`() {
         val result: List<List<Int>> = cartesianProductOf(dataList, true).toList()
-        assertContainsAll(expectedCartesianList, result)
-        expectedCartesianList.forEach {
-            assertTrue(result.contains(it))
-        }
+        assertContainsAllWithOrder(expectedCartesianList, result)
     }
 
     @Test
@@ -133,6 +131,16 @@ internal class CartesianProductSetTest {
         assertTrue(threads.size > 1)
     }
 
+    @Test
+    fun `parallel stream should keep order`() {
+        val cartesianProductSet = cartesianProductOf(dataList, true)
+        val actual = cartesianProductSet.stream()
+                .parallel()
+                .collect(Collectors.toSet())
+
+        assertContainsAllWithOrder(expectedCartesianList, actual)
+    }
+
     private fun <T> assertContainsAll(
             expected: Collection<Collection<T>>,
             actual: Collection<Collection<T>>
@@ -146,6 +154,17 @@ internal class CartesianProductSetTest {
                 }
             }
             assertTrue("Expected $expectedCombination, but not found in $actual", foundCombination)
+        }
+    }
+
+    private fun <T> assertContainsAllWithOrder(
+            expected: Collection<Collection<T>>,
+            actual: Collection<Collection<T>>
+    ) {
+        expected.forEach { expectedCombination ->
+            if (!actual.contains(expectedCombination)) {
+                throw AssertionError("Expected $expectedCombination in the same order, but not found in $actual")
+            }
         }
     }
 }
