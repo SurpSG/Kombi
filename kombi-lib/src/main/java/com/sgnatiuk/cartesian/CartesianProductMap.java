@@ -40,7 +40,7 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
                         AbstractMap.SimpleEntry::getKey,
                         pair -> pair.getValue().toArray(),
                         (v1, v2) -> {
-                            throw new IllegalStateException("Unexpected key duplication in data:" + data);
+                            throw new IllegalArgumentException("Unexpected key duplication in data:" + data);
                         },
                         LinkedHashMap::new
                 ));
