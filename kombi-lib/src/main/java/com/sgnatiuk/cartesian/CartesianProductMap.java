@@ -6,22 +6,26 @@ import java.util.stream.Collectors;
 
 class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> implements Serializable {
 
-    private final Map<K, ArrayList<V>> values;
-    private final ArrayList<K> dataKeys;
-
-    CartesianProductMap(Map<K, ? extends Collection<V>> values) {
-        this(values, false);
-    }
+    private final Map<K, Object[]> values;
+    private final Object[] dataKeys;
+    private final boolean keepOrder;
 
     CartesianProductMap(Map<K, ? extends Collection<V>> values, boolean keepOrder) {
         this.values = copyWithOrder(
                 values,
                 keepOrder ? (o1, o2) -> 0 : new ValuesCountDesc<>()
         );
-        this.dataKeys = new ArrayList<>(this.values.keySet());
+        this.dataKeys = this.values.keySet().toArray();
+        this.keepOrder = keepOrder;
     }
 
-    private Map<K, ArrayList<V>> copyWithOrder(
+    private CartesianProductMap(boolean keepOrder, Map<K, Object[]> values) {
+        this.values = values;
+        this.dataKeys = this.values.keySet().toArray();
+        this.keepOrder = keepOrder;
+    }
+
+    private Map<K, Object[]> copyWithOrder(
             Map<K, ? extends Collection<V>> data,
             Comparator<Map.Entry<K, ? extends Collection<V>>> comparator
     ) {
@@ -34,23 +38,22 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
                 ))
                 .collect(Collectors.toMap(
                         AbstractMap.SimpleEntry::getKey,
-                        AbstractMap.SimpleEntry::getValue,
+                        pair -> pair.getValue().toArray(),
                         (v1, v2) -> {
-                            throw new IllegalStateException("Unexpected key duplication in data:" + data);
+                            throw new IllegalArgumentException("Unexpected key duplication in data:" + data);
                         },
                         LinkedHashMap::new
                 ));
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
     protected MaskDecoder<Map<K, V>> maskDecoder() {
         return encoded -> {
-            HashMap<K, V> decoded = new HashMap<>();
+            HashMap<K, V> decoded = new HashMap<>(encoded.length);
             for (int i = 0; i < encoded.length; i++) {
-                K fieldKey = dataKeys.get(i);
-                V value = values.get(fieldKey)
-                        .get(encoded[i]);
+                K fieldKey = (K) dataKeys[i];
+                V value = (V) values.get(fieldKey)[encoded[i]];
                 decoded.put(fieldKey, value);
             }
             return decoded;
@@ -58,32 +61,45 @@ class CartesianProductMap<K, V> extends EncodableCartesianProduct<Map<K, V>> imp
     }
 
     @Override
-    protected Collection<? extends Collection<?>> values() {
-        return values.values();
+    protected Object[][] values() {
+        Object[][] data = new Object[values.size()][];
+        int index = 0;
+        for (Object[] value : values.values()) {
+            data[index++] = value;
+        }
+        return data;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<CartesianProduct<Map<K, V>>> split(int n) {
-
+        if (n < 2) {
+            return Collections.singletonList(this);
+        }
         List<CartesianProduct<Map<K, V>>> splitList = new ArrayList<>(n);
-        Map<K, ArrayList<V>> descSortedData = copyWithOrder(values, new ValuesCountDesc<>());
-        Map.Entry<K, ArrayList<V>> firstEntry = descSortedData.entrySet().stream().findFirst().orElseThrow(
-                () -> new IllegalStateException("Expected at least one item in: " + descSortedData)
-        );
-        ArrayList<V> firstValue = firstEntry.getValue();
-        int parts = Math.min(n, firstValue.size());
+
+        K keyOfMaxLengthArr = (K) dataKeys[0];
+        Object[] arrWithMaxLength = values.get(keyOfMaxLengthArr);
+        for (int i = 1; i < dataKeys.length; i++) {
+            Object[] nextArr = values.get(dataKeys[i]);
+            if (nextArr.length > arrWithMaxLength.length) {
+                keyOfMaxLengthArr = (K) dataKeys[i];
+                arrWithMaxLength = nextArr;
+            }
+        }
+        int parts = Math.min(n, arrWithMaxLength.length);
 
         int from = 0;
         for (int i = 0; i < parts; i++) {
-            int valuesPerChunk = (firstValue.size() - from) / (parts - i);
+            int valuesPerChunk = (arrWithMaxLength.length - from) / (parts - i);
             int to = from + valuesPerChunk;
 
-            LinkedHashMap<K, List<V>> newData = new LinkedHashMap<>(descSortedData);
-            newData.put(
-                    firstEntry.getKey(),
-                    firstValue.subList(from, to)
+            Map<K, Object[]> nd = new HashMap<>(values);
+            nd.put(
+                    keyOfMaxLengthArr,
+                    Arrays.copyOfRange(arrWithMaxLength, from, to)
             );
-            splitList.add(new CartesianProductMap<>(newData));
+            splitList.add(new CartesianProductMap<>(keepOrder, nd));
             from = to;
         }
         return splitList;

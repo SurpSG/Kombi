@@ -42,6 +42,6 @@ class CombinationMask implements Iterator<int[]> {
             overflow = incrementedCell / bases[index++];
         } while (overflow != 0 && index < bases.length);
 
-        return overflow > 0 && index == bases.length;
+        return overflow > 0;
     }
 }

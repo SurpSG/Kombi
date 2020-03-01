@@ -3,11 +3,17 @@ package com.sgnatiuk.benchmark.cartesian
 import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.infra.Blackhole
+import java.util.concurrent.TimeUnit
 
 @State(Scope.Benchmark)
+@Fork(2)
+@Warmup(iterations = 5)
+@Measurement(iterations = 5)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 open class CartesianMapBenchmark {
 
-    @Param("7")
+    @Param("5", "7")
     var itemsQuantity: Int = 0
 
     lateinit var mapOf: Map<Int, List<Int>>

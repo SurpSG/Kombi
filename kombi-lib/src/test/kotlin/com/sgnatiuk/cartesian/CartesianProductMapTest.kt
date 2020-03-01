@@ -7,6 +7,7 @@ import com.sgnatiuk.extensions.BigInt
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.*
 import java.util.stream.Collectors
 
 internal class CartesianProductMapTest {
@@ -49,6 +50,16 @@ internal class CartesianProductMapTest {
         val splitFactor = 2
         val splitCartesian = cartesianProductMap.split(splitFactor)
         assertEquals(splitFactor, splitCartesian.size)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `cartesian product should throw on duplicated key in data`() {
+        val duplicatedKeyMap = TreeMap<Int, List<Int>> { _, _ -> -1 }.apply {
+            put(1, listOf(1))
+            put(1, listOf(2))
+        }
+
+        cartesianProductOf(duplicatedKeyMap)
     }
 
     @Test
