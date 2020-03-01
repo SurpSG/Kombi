@@ -14,9 +14,41 @@ internal class CartesianProductSetTest {
     @Test
     fun `verify empty collection is returned when passed empty collection`() {
         val emptyCollection = emptyList<List<Int>>()
-        cartesianProductOf(emptyCollection).forEach {
+        checkCartesianProductIsEmpty(emptyCollection)
+    }
+
+    @Test
+    fun `cartesian product of single zero length collection should be empty`() {
+        val emptyCollection = listOf(emptyList<Int>())
+        checkCartesianProductIsEmpty(emptyCollection)
+    }
+
+    private fun checkCartesianProductIsEmpty(list: List<List<Int>>) {
+        cartesianProductOf(list).apply {
+            assertEquals(0, combinationsCount().longValueExact())
+        }.forEach { _ ->
             throw RuntimeException("expected empty collection")
         }
+    }
+
+    @Test
+    fun `stream of cartesian product of single zero length collection should be empty`() {
+        val emptyCollection = listOf(emptyList<Int>())
+        val count = cartesianProductOf(emptyCollection)
+                .stream()
+                .flatMap { it.stream() }
+                .count()
+        assertEquals(0, count)
+    }
+
+    @Test
+    fun `parallel stream of cartesian product of single zero length collection should be empty`() {
+        val emptyCollection = listOf(emptyList<Int>())
+        val count = cartesianProductOf(emptyCollection)
+                .stream()
+                .flatMap { it.stream() }
+                .count()
+        assertEquals(0, count)
     }
 
     @Test
