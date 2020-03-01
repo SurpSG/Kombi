@@ -1,9 +1,9 @@
 package com.sgnatiuk.cartesian;
 
 import java.math.BigInteger;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -11,20 +11,22 @@ abstract class EncodableCartesianProduct<T> implements CartesianProduct<T> {
 
     protected abstract MaskDecoder<T> maskDecoder();
 
-    protected abstract Collection<? extends Collection<?>> values();
+    protected abstract Object[][] values();
+
+    private Lazy<BigInteger> combinationsCount = new Lazy<>(() -> multiplySubArraysLength(values()));
 
     @Override
     public BigInteger combinationsCount() {
-        return multiplyAll(values(), Collection::size);
+        return combinationsCount.get();
     }
 
     @Override
     public Iterator<T> iterator() {
-        if (values().isEmpty()) {
+        if (values().length == 0) {
             return Collections.emptyIterator();
         }
         return new Iterator<T>() {
-            private final CombinationMask dataEncoder = new CombinationMask(bases());
+            private final CombinationMask dataEncoder = new CombinationMask(radixes());
             private final MaskDecoder<T> maskDecoder = maskDecoder();
 
             @Override
@@ -47,87 +49,41 @@ abstract class EncodableCartesianProduct<T> implements CartesianProduct<T> {
         );
     }
 
-    int[] bases() {
-        Collection<? extends Collection<?>> values = values();
-        int[] radixes = new int[values.size()];
-        int index = 0;
-        for (Collection<?> value : values) {
-            radixes[index++] = value.size();
+    int[] radixes() {
+        Object[][] values = values();
+        int[] radixes = new int[values.length];
+        for (int i = 0; i < values.length; i++) {
+            radixes[i] = values[i].length;
         }
         return radixes;
     }
 
-    public static <T> BigInteger multiplyAll(Iterable<T> items, Function<T, Integer> intValue) {
+    private static BigInteger multiplySubArraysLength(Object[][] items) {
+        if (items.length == 0) {
+            return BigInteger.ZERO;
+        }
         BigInteger result = BigInteger.ONE;
-        boolean collectionEmpty = true;
+        for (Object[] item : items) {
+            result = result.multiply(
+                    BigInteger.valueOf(item.length)
+            );
+        }
+        return result;
+    }
 
-        for (T item : items) {
-            collectionEmpty = false;
-            result = result.multiply(BigInteger.valueOf(
-                    intValue.apply(item)
-            ));
+    private static class Lazy<T> {
+        private final Supplier<T> supplier;
+        private T value;
+
+        private Lazy(Supplier<T> supplier) {
+            this.supplier = supplier;
         }
 
-        return collectionEmpty ? BigInteger.ZERO : result;
-    }
-}
-
-class CartesianProductSpliterator<T> implements Spliterator<T> {
-
-    private CartesianProduct<T> cartesianProduct;
-    private Iterator<T> cartesianProductIterator;
-    private boolean isSizeKnown;
-    private long size;
-
-    CartesianProductSpliterator(CartesianProduct<T> cartesianProduct) {
-        this.cartesianProduct = cartesianProduct;
-        cartesianProductIterator = cartesianProduct.iterator();
-
-        Map.Entry<Boolean, Long> sizeInfo = computeSize();
-        isSizeKnown = sizeInfo.getKey();
-        size = sizeInfo.getValue();
-    }
-
-    @Override
-    public boolean tryAdvance(Consumer<? super T> action) {
-        if (cartesianProductIterator.hasNext()) {
-            action.accept(cartesianProductIterator.next());
-            return true;
-        } else {
-            return false;
+        private T get() {
+            if (value == null) {
+                value = supplier.get();
+            }
+            return value;
         }
-    }
-
-    @Override
-    public Spliterator<T> trySplit() {
-        List<CartesianProduct<T>> cartesianProducts = cartesianProduct.split(2);
-
-        cartesianProduct = cartesianProducts.get(1);
-        cartesianProductIterator = cartesianProduct.iterator();
-        Map.Entry<Boolean, Long> sizeInfo = computeSize();
-        isSizeKnown = sizeInfo.getKey();
-        size = sizeInfo.getValue();
-
-        return new CartesianProductSpliterator<>(cartesianProducts.get(0));
-    }
-
-    @Override
-    public long estimateSize() {
-        return size;
-    }
-
-    @Override
-    public int characteristics() {
-        int flags = Spliterator.CONCURRENT | Spliterator.IMMUTABLE | Spliterator.ORDERED;
-        return isSizeKnown
-                ? flags | Spliterator.SIZED | Spliterator.SUBSIZED
-                : flags;
-    }
-
-    private Map.Entry<Boolean, Long> computeSize() {
-        BigInteger combinationsCount = cartesianProduct.combinationsCount();
-        return combinationsCount.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0
-                ? new AbstractMap.SimpleEntry<>(false, Long.MAX_VALUE)
-                : new AbstractMap.SimpleEntry<>(true, combinationsCount.longValueExact());
     }
 }
