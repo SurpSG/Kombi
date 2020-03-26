@@ -31,7 +31,10 @@ jobs:
       run: chmod +x gradlew
       
     - name: build & test
-      run: ./gradlew check    
+      run: ./gradlew check
+    
+    - name: create coverage report
+      run: ./gradlew jacocoTestReport
     
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1
