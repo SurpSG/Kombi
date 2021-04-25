@@ -69,7 +69,7 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
 
         @Override
         public Iterator<T> iterator() {
-            return new Iterator<>() {
+            return new Iterator<T>() {
                 int index = 0;
                 final int size = localEncoded.length;
 

@@ -1,3 +1,8 @@
+v3.1.0
+* Speed up cartesian item generation
+* Speed up cartesian item toArray() method
+* Move Kombi to jitpack
+
 v3.0.1
 * 'Cartesian product' from Collection<Collection<T>> performance tuning.(~40% speed-up)
 
