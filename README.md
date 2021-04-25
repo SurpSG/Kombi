@@ -5,11 +5,14 @@
 [![GitHub issues](https://img.shields.io/github/issues/surpsg/kombi)](https://github.com/surpsg/kombi/issues)
 [![GitHub stars](https://img.shields.io/github/stars/surpsg/kombi?style=flat-square)](https://github.com/surpsg/kombi/stargazers)
 
-**Kombi** is library to generate
+**Kombi** is able to generate
 * all possible [combinations](https://en.wikipedia.org/wiki/Combination) from given set of items
 * [cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from given sets of items
 
-All items computations are lazy that provides a small memory footprint. 
+**Kombi** advantages:
+* All items computations are lazy that provides a small memory footprint
+* tiny library(~30Kb)
+* no external dependencies
 
 To get even better throughput(see [Benchmarking](#benchmarking) section), computations can be easily parallelized by splitting to equal independent subsets(see [Parallel computation](#parallel-computation) section).    
 
