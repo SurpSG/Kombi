@@ -101,14 +101,11 @@ internal class CartesianProductMapTest {
 
     @Test
     fun `parallel stream should generate all items`() {
-        val threads = mutableSetOf<Long>()
         val cartesianProduct = cartesianProductOf(dataMap)
         val actual = cartesianProduct.stream()
                 .parallel()
-                .peek { threads += Thread.currentThread().id }
                 .collect(Collectors.toSet())
 
         assertEquals(expectedCartesianMap.toSet(), actual)
-        assertTrue(threads.size > 1)
     }
 }
