@@ -1,7 +1,9 @@
 # Kombi
-[ ![Download](https://api.bintray.com/packages/sgnatiuk/kombi/kombi/images/download.svg) ](https://bintray.com/sgnatiuk/kombi/kombi/_latestVersion)
-[![Build Status](https://travis-ci.org/SurpSG/Kombi.svg?branch=master)](https://travis-ci.org/SurpSG/Kombi)
-[![Coverage Status](https://coveralls.io/repos/github/SurpSG/Kombi/badge.svg)](https://coveralls.io/github/SurpSG/Kombi)
+[![](https://jitpack.io/v/surpsg/kombi.svg)](https://jitpack.io/#surpsg/kombi)
+[![CI](https://github.com/SurpSG/Kombi/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SurpSG/Kombi/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/SurpSG/Kombi/branch/master/graph/badge.svg?token=DBG3XreExu)](https://codecov.io/gh/SurpSG/Kombi)
+[![GitHub issues](https://img.shields.io/github/issues/surpsg/kombi)](https://github.com/surpsg/kombi/issues)
+[![GitHub stars](https://img.shields.io/github/stars/surpsg/kombi?style=flat-square)](https://github.com/surpsg/kombi/stargazers)
 
 **Kombi** is library to generate
 * all possible [combinations](https://en.wikipedia.org/wiki/Combination) from given set of items
@@ -16,26 +18,26 @@ To get even better throughput(see [Benchmarking](#benchmarking) section), comput
 ```xml
 <repositories>
     <repository>
-        <id>jcenter</id>
-        <url>https://jcenter.bintray.com/</url>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
     </repository>
 </repositories>
 <dependencies>
     <dependency>
       <groupId>com.sgnatiuk</groupId>
       <artifactId>kombi</artifactId>
-      <version>3.0.1</version>
+      <version>3.1.0</version>
     </dependency>
 </dependencies>
 ```
 ### Gradle
 ```groovy
-repositories {  
-   jcenter()  
+repositories {
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:3.0.1'
+    compile 'com.sgnatiuk:kombi:3.1.0'
 }
 ```
 ## Combinations

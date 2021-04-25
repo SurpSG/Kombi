@@ -7,6 +7,7 @@ import com.sgnatiuk.extensions.BigInt
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.*
 import java.util.stream.Collectors
 
 internal class CartesianProductSetTest {
@@ -66,6 +67,32 @@ internal class CartesianProductSetTest {
     fun `verify Cartesian product set returns all possible combinations`() {
         val result: List<List<Int>> = cartesianProductOf(dataList, false).toList()
         assertContainsAll(expectedCartesianList, result)
+    }
+
+    @Test
+    fun `toArray on cartesian item must return array of items`() {
+        val result: List<List<Int>> = cartesianProductOf(dataList, true).toList()
+
+        val itemsAsArray: List<Array<Any>> = result.asSequence()
+                .map { it as AbstractList }.map { it.toArray() }
+                .toList()
+
+        expectedCartesianList.asSequence()
+                .map { it as AbstractList }.map { it.toArray() }
+                .forEach { expectedCombination: Array<Any> ->
+                    var foundCombination = false
+                    for (computed in itemsAsArray) {
+                        if (computed contentEquals expectedCombination) {
+                            foundCombination = true
+                            break
+                        }
+                    }
+                    assertTrue(
+                            "Expected ${expectedCombination.contentToString()}, but not found in " +
+                                    itemsAsArray.joinToString { it.contentToString() },
+                            foundCombination
+                    )
+                }
     }
 
     @Test
