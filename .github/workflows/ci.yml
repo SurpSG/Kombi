@@ -35,7 +35,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: build & test
-      run: ./gradlew check    
+      run: ./gradlew check
 
     - name: run diff coverage check
       run: ./gradlew kombi-lib:diffCoverage -PdiffBase=refs/remotes/origin/master
@@ -47,4 +47,4 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: kombi-lib/build/reports/jacoco/test/jacocoRootReport.xml
+        file: kombi-lib/build/reports/jacoco/test/jacocoTestReport.xml
