@@ -59,10 +59,19 @@ class CartesianProductSet<T> extends EncodableCartesianProduct<List<T>> implemen
         }
 
         @Override
+        public Object[] toArray() {
+            Object[] result = new Object[localEncoded.length];
+            for (int i = 0; i < localEncoded.length; i++) {
+                result[i] = get(i);
+            }
+            return result;
+        }
+
+        @Override
         public Iterator<T> iterator() {
-            return new Iterator<T>() {
+            return new Iterator<>() {
                 int index = 0;
-                int size = localEncoded.length;
+                final int size = localEncoded.length;
 
                 @Override
                 public boolean hasNext() {
