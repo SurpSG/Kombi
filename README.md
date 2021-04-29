@@ -27,7 +27,7 @@ To get even better throughput(see [Benchmarking](#benchmarking) section), comput
 </repositories>
 <dependencies>
     <dependency>
-      <groupId>com.sgnatiuk</groupId>
+      <groupId>com.github.surpsg</groupId>
       <artifactId>kombi</artifactId>
       <version>3.1.0</version>
     </dependency>
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sgnatiuk:kombi:3.1.0'
+    compile 'com.github.surpsg:kombi:3.1.0'
 }
 ```
 ## Combinations
