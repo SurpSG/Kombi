@@ -1,8 +1,12 @@
-apply plugin: 'application'
+plugins {
+    id 'application'
+    id 'java'
+    id "org.jetbrains.kotlin.jvm" version "1.5.21"
+}
 
 dependencies{
-    compile project(":kombi-lib")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation project(":kombi-lib")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 compileKotlin {

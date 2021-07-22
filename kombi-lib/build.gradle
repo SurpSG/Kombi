@@ -1,17 +1,17 @@
 buildscript {
     repositories {
-        jcenter()
         maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.github.form-com.diff-coverage-gradle:diff-coverage:0.7.1'
+        classpath 'com.github.form-com.diff-coverage-gradle:diff-coverage:0.7.2'
     }
 }
 
 plugins {
+    id 'java'
     id 'jacoco'
-    id 'maven'
+    id 'maven-publish'
 }
 
 ext{
@@ -40,8 +40,8 @@ artifacts {
 }
 
 dependencies {
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    testCompile "junit:junit:4.12"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
 }
 
 jacocoTestReport {
