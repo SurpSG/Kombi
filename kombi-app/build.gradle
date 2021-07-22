@@ -1,12 +1,13 @@
 plugins {
     id 'application'
     id 'java'
-    id "org.jetbrains.kotlin.jvm" version "1.5.21"
 }
 
 dependencies{
     implementation project(":kombi-lib")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation 'com.google.guava:guava:30.1.1-jre'
 }
 
 compileKotlin {

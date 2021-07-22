@@ -1,16 +1,15 @@
 package com.sgnatiuk.combination
 
 import com.sgnatiuk.extensions.pow
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.util.stream.Collectors
 
 internal class MapCombinationTest {
     private val map = mapOf(
-            1 to "1",
-            2 to "2",
-            3 to "3"
+        1 to "1",
+        2 to "2",
+        3 to "3"
     )
     private val combinationsCount = 2.pow(map.size) - 1
     private val mapCombination = CombinationsBuilder.combinationsOf(map) as AbstractCombination
@@ -41,14 +40,18 @@ internal class MapCombinationTest {
         assertEquals(expected, actual)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `verify split by zero throws exception`() {
-        mapCombination.split(0)
+        assertThrows(IllegalArgumentException::class.java) {
+            mapCombination.split(0)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `verify split by value less then zero throws exception`() {
-        mapCombination.split(-1)
+        assertThrows(IllegalArgumentException::class.java) {
+            mapCombination.split(-1)
+        }
     }
 
     @Test
@@ -90,8 +93,8 @@ internal class MapCombinationTest {
     fun `stream should return stream able to be process items parallel`() {
         val expected = mapCombination.toSet()
         val actual = mapCombination.stream()
-                .parallel()
-                .collect(Collectors.toSet())
+            .parallel()
+            .collect(Collectors.toSet())
         assertEquals(expected, actual)
     }
 }

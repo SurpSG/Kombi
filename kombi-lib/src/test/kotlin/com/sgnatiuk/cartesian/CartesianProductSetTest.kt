@@ -4,9 +4,9 @@ import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.dataList
 import com.sgnatiuk.expectedCartesianList
 import com.sgnatiuk.extensions.BigInt
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.stream.Collectors
 
@@ -27,9 +27,9 @@ internal class CartesianProductSetTest {
     @Test
     fun `cartesian product of list with at least one empty collection should be empty`() {
         val emptyCollection = listOf(
-                emptyList(),
-                listOf(1),
-                listOf(1, 2)
+            emptyList(),
+            listOf(1),
+            listOf(1, 2)
         )
         checkCartesianProductIsEmpty(emptyCollection)
     }
@@ -46,9 +46,9 @@ internal class CartesianProductSetTest {
     fun `stream of cartesian product of single zero length collection should be empty`() {
         val emptyCollection = listOf(emptyList<Int>())
         val count = cartesianProductOf(emptyCollection)
-                .stream()
-                .flatMap { it.stream() }
-                .count()
+            .stream()
+            .flatMap { it.stream() }
+            .count()
         assertEquals(0, count)
     }
 
@@ -56,10 +56,10 @@ internal class CartesianProductSetTest {
     fun `parallel stream of cartesian product of single zero length collection should be empty`() {
         val emptyCollection = listOf(emptyList<Int>())
         val count = cartesianProductOf(emptyCollection)
-                .stream()
-                .parallel()
-                .flatMap { it.stream() }
-                .count()
+            .stream()
+            .parallel()
+            .flatMap { it.stream() }
+            .count()
         assertEquals(0, count)
     }
 
@@ -74,25 +74,25 @@ internal class CartesianProductSetTest {
         val result: List<List<Int>> = cartesianProductOf(dataList, true).toList()
 
         val itemsAsArray: List<Array<Any>> = result.asSequence()
-                .map { it as AbstractList }.map { it.toArray() }
-                .toList()
+            .map { it as AbstractList }.map { it.toArray() }
+            .toList()
 
         expectedCartesianList.asSequence()
-                .map { it as AbstractList }.map { it.toArray() }
-                .forEach { expectedCombination: Array<Any> ->
-                    var foundCombination = false
-                    for (computed in itemsAsArray) {
-                        if (computed contentEquals expectedCombination) {
-                            foundCombination = true
-                            break
-                        }
+            .map { it as AbstractList }.map { it.toArray() }
+            .forEach { expectedCombination: Array<Any> ->
+                var foundCombination = false
+                for (computed in itemsAsArray) {
+                    if (computed contentEquals expectedCombination) {
+                        foundCombination = true
+                        break
                     }
-                    assertTrue(
-                            "Expected ${expectedCombination.contentToString()}, but not found in " +
-                                    itemsAsArray.joinToString { it.contentToString() },
-                            foundCombination
-                    )
                 }
+                assertTrue(
+                    foundCombination,
+                    "Expected ${expectedCombination.contentToString()}, but not found in " +
+                            itemsAsArray.joinToString { it.contentToString() }
+                )
+            }
     }
 
     @Test
@@ -150,9 +150,9 @@ internal class CartesianProductSetTest {
         val cartesianProductSet = cartesianProductOf(dataList)
         val threads = mutableSetOf<Long>()
         val actual = cartesianProductSet.stream()
-                .parallel()
-                .peek { threads += Thread.currentThread().id }
-                .collect(Collectors.toSet())
+            .parallel()
+            .peek { threads += Thread.currentThread().id }
+            .collect(Collectors.toSet())
 
         assertContainsAll(expectedCartesianList, actual)
         assertTrue(threads.size > 1)
@@ -162,15 +162,15 @@ internal class CartesianProductSetTest {
     fun `parallel stream should keep order`() {
         val cartesianProductSet = cartesianProductOf(dataList, true)
         val actual = cartesianProductSet.stream()
-                .parallel()
-                .collect(Collectors.toSet())
+            .parallel()
+            .collect(Collectors.toSet())
 
         assertContainsAllWithOrder(expectedCartesianList, actual)
     }
 
     private fun <T> assertContainsAll(
-            expected: Collection<Collection<T>>,
-            actual: Collection<Collection<T>>
+        expected: Collection<Collection<T>>,
+        actual: Collection<Collection<T>>
     ) {
         expected.forEach { expectedCombination ->
             var foundCombination = false
@@ -180,13 +180,13 @@ internal class CartesianProductSetTest {
                     break
                 }
             }
-            assertTrue("Expected $expectedCombination, but not found in $actual", foundCombination)
+            assertTrue(foundCombination, "Expected $expectedCombination, but not found in $actual")
         }
     }
 
     private fun <T> assertContainsAllWithOrder(
-            expected: Collection<Collection<T>>,
-            actual: Collection<Collection<T>>
+        expected: Collection<Collection<T>>,
+        actual: Collection<Collection<T>>
     ) {
         expected.forEach { expectedCombination ->
             if (!actual.contains(expectedCombination)) {

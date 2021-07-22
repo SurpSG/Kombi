@@ -1,16 +1,15 @@
 package com.sgnatiuk.cartesian
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 internal class CombinationMaskTest {
     private val testData = TestData(3)
 
     @Test
-    fun `verify hasNext can be called multiple times`(){
+    fun `verify hasNext can be called multiple times`() {
         val combinationMask = CombinationMask(testData.bases)
-        repeat(testData.expectedCombinations){
+        repeat(testData.expectedCombinations) {
             val hasNext = combinationMask.hasNext() && combinationMask.hasNext()
             assertTrue(hasNext)
             combinationMask.next()
@@ -26,13 +25,15 @@ internal class CombinationMaskTest {
         assertEquals(testData.expectedCombinations, combinationSet.size)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `verify exception is thrown when passed empty array to constructor`() {
-        CombinationMask(intArrayOf())
+        assertThrows(IllegalArgumentException::class.java) {
+            CombinationMask(intArrayOf())
+        }
     }
 }
 
-class TestData(val bases: IntArray){
+class TestData(val bases: IntArray) {
     constructor(itemsCount: Int = 3) : this(createIntArray(itemsCount))
 
     val expectedCombinations: Int by lazy {
@@ -40,6 +41,6 @@ class TestData(val bases: IntArray){
     }
 }
 
-private fun createIntArray(size: Int): IntArray{
+private fun createIntArray(size: Int): IntArray {
     return IntArray(size) { it + 1 }.sortedArrayDescending()
 }

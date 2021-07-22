@@ -1,7 +1,7 @@
 package com.sgnatiuk.cartesian
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.util.*
 
 class CartesianProductSpliteratorTest {
@@ -11,14 +11,13 @@ class CartesianProductSpliteratorTest {
         val n = 1000
         val list = List(n) { it + 1 }
         val data = listOf(
-                list, list,
-                list, list,
-                list, list,
-                list
+            list, list,
+            list, list,
+            list, list,
+            list
         )
 
         val spliterator = CartesianProductSpliterator(CartesianBuilder.cartesianProductOf(data))
         assertEquals(0, spliterator.characteristics() and Spliterator.SIZED)
-
     }
 }

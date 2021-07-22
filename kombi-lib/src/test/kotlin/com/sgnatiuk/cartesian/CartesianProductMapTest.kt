@@ -4,9 +4,8 @@ import com.sgnatiuk.cartesian.CartesianBuilder.cartesianProductOf
 import com.sgnatiuk.dataMap
 import com.sgnatiuk.expectedCartesianMap
 import com.sgnatiuk.extensions.BigInt
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.stream.Collectors
 
@@ -52,14 +51,16 @@ internal class CartesianProductMapTest {
         assertEquals(splitFactor, splitCartesian.size)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `cartesian product should throw on duplicated key in data`() {
         val duplicatedKeyMap = TreeMap<Int, List<Int>> { _, _ -> -1 }.apply {
             put(1, listOf(1))
             put(1, listOf(2))
         }
 
-        cartesianProductOf(duplicatedKeyMap)
+        assertThrows(IllegalArgumentException::class.java) {
+            cartesianProductOf(duplicatedKeyMap)
+        }
     }
 
     @Test
@@ -94,7 +95,7 @@ internal class CartesianProductMapTest {
     fun `stream should generate all items`() {
         val cartesianProduct = cartesianProductOf(dataMap)
         val actual = cartesianProduct.stream()
-                .collect(Collectors.toSet())
+            .collect(Collectors.toSet())
 
         assertEquals(expectedCartesianMap.toSet(), actual)
     }
@@ -103,8 +104,8 @@ internal class CartesianProductMapTest {
     fun `parallel stream should generate all items`() {
         val cartesianProduct = cartesianProductOf(dataMap)
         val actual = cartesianProduct.stream()
-                .parallel()
-                .collect(Collectors.toSet())
+            .parallel()
+            .collect(Collectors.toSet())
 
         assertEquals(expectedCartesianMap.toSet(), actual)
     }

@@ -1,9 +1,8 @@
 package com.sgnatiuk.combination
 
 import com.sgnatiuk.extensions.pow
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.util.stream.Collectors
 
 internal class ListCombinationTest {
@@ -36,14 +35,18 @@ internal class ListCombinationTest {
         assertEquals(expected, actual)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `verify split by zero throws exception`() {
-        listCombination.split(0)
+        assertThrows(IllegalArgumentException::class.java) {
+            listCombination.split(0)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `verify split by value less then zero throws exception`() {
-        listCombination.split(-1)
+        assertThrows(IllegalArgumentException::class.java) {
+            listCombination.split(-1)
+        }
     }
 
     @Test
@@ -77,8 +80,8 @@ internal class ListCombinationTest {
     fun `stream should return stream of all items`() {
         val expected = listCombination.map { it.toSet() }.toSet()
         val actual = listCombination.stream()
-                .map { it.toSet() }
-                .collect(Collectors.toSet())
+            .map { it.toSet() }
+            .collect(Collectors.toSet())
         assertEquals(expected, actual)
     }
 
@@ -86,9 +89,9 @@ internal class ListCombinationTest {
     fun `stream should return stream able to be process items parallel`() {
         val expected = listCombination.map { it.toSet() }.toSet()
         val actual = listCombination.stream()
-                .parallel()
-                .map { it.toSet() }
-                .collect(Collectors.toSet())
+            .parallel()
+            .map { it.toSet() }
+            .collect(Collectors.toSet())
         assertEquals(expected, actual)
     }
 }
