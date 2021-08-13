@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/SurpSG/Kombi/branch/master/graph/badge.svg?token=DBG3XreExu)](https://codecov.io/gh/SurpSG/Kombi)
 [![GitHub issues](https://img.shields.io/github/issues/surpsg/kombi)](https://github.com/surpsg/kombi/issues)
 [![GitHub stars](https://img.shields.io/github/stars/surpsg/kombi?style=flat-square)](https://github.com/surpsg/kombi/stargazers)
+![GitHub all releases](https://img.shields.io/github/downloads/surpsg/kombi/total)
 
 **Kombi** is able to generate
 * all possible [combinations](https://en.wikipedia.org/wiki/Combination) from given set of items
